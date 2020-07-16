@@ -22,8 +22,11 @@
     "persistent": false,
     "scripts": ["background.js"]
   },
-  "content_scripts": [{
-    "matches": [ "<all_urls>" ],
-    "js": ["content.js"]
-  }]
+  "content_scripts" : [
+    {
+      "matches": [ "<all_urls>" ],
+      "css": ["/static/css/app.css", "/static/css/content.css"],
+      "js": ["/static/js/0.chunk.js","/static/js/content.js"]
+    }
+  ]
 }
