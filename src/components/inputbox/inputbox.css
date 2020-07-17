@@ -1,0 +1,28 @@
+.zipcodeForm{
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+}
+
+.zipcodeForm input{
+    width:50vmin;
+    height: 5vmin;
+    padding:5vmin;
+    font-size: 10vmin;
+    text-align:center;
+    font-weight: normal;
+    background:white;
+    border:1px solid #3e7fbb;
+    color: #3e7fbb;
+    border-radius: 0.5vmin;
+ }
+
+ .zipcodeForm input:focus{
+    outline: none;
+    border-radius: 0.5vmin;
+ }
+
+ .zipcodeForm label{
+     font-size: 10vmin;
+     color: #3e7fbb;
+ }
