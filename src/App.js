@@ -9,7 +9,7 @@ function App() {
   return (
     <div>
       <Test2/>
-      <Test/>
+      {/*<Test/>*/}
       <InputBox/>
     </div>
   );

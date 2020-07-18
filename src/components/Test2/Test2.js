@@ -4,35 +4,33 @@ import React, { useState, useEffect, useRef} from "react";
 
 export default function Test2 (){
 
-    const title = useRef(null)
-    const tab_title = useRef('')
-    var list = []
+    // const title = useRef(null)
+    // const tab_title = useRef('')
+    // var list = []
 
 
-    function result(array){
-        console.log(list.toString());
-    }
+
     
     // }
     /*result is body element node i think ```o_o```*/
-    function findprice(node){
-        //node.setAttribute('visited', true);
-        //console.log("node's visited", node.getAttribute('visited'));
-        if (node.nodeType === 3 && node.nodeValue.includes('$')) {
-            list.append(node);
-            title.current.innerHTML = title + node.nodeValue;
-            console.log(list.length);
-        }
-        console.log('1');
-        if (node.hasChildNodes()){
+    // function findprice(node){
+    //     //node.setAttribute('visited', true);
+    //     //console.log("node's visited", node.getAttribute('visited'));
+    //     if (node.nodeType === 3 && node.nodeValue.includes('$')) {
+    //         list.append(node);
+    //         title.current.innerHTML = title + node.nodeValue;
+    //         console.log(list.length);
+    //     }
+    //     console.log('1');
+    //     if (node.hasChildNodes()){
             
-            let children = node.childNodes;  
-            for (let i = 0; i < children.length; i++){
+    //         let children = node.childNodes;  
+    //         for (let i = 0; i < children.length; i++){
                 
-                findprice(children[i]);
+    //             findprice(children[i]);
 
-            }      
-        }
+    //         }      
+    //     }
         
         
         // if (node.childNodes.length === 0){
@@ -40,38 +38,42 @@ export default function Test2 (){
         //         findprice(element);    
         //     });  
         // }
-    }
+    //}
+    
 
-
-    const code = `function getDOM (){
-
+   function getDOM (){
         function findprice(node){
-        
+            console.log('1');
             if (node.nodeType === 3 && node.nodeValue.includes('$')) {
-                list.append(node);
-                title.current.innerHTML = title + node.nodeValue;
-                console.log(list.length);
+                //list.append(node);
+                node.nodeValue = 'hello'
+                console.log('2');
             }
             if (node.hasChildNodes()){
                 let children = node.childNodes;  
                 for (let i = 0; i < children.length; i++){
                     findprice(children[i]);
-    
                 }      
             }
+        }
+        var list = []
 
         findprice(document);
-    }`
+        return 'hello'
+    }
  
+    function printresult(array){
+        console.log(array[0]);
+    }
+
     chrome.tabs.query({active: true}, function(tabs) {
         var tab = tabs[0];
-        list = [];
         //tab_title.current = tab.title;
 
         //hmm getting the body node
         chrome.tabs.executeScript(tab.id, {
-            code
-        }, result);
+            code: '('+getDOM+')()'
+        }, printresult);
     });
     
 
@@ -90,6 +92,6 @@ export default function Test2 (){
     // });
 
     return(
-    <h1 ref = {title} >hello</h1>
+    <h1>hello</h1>
     )
 }
