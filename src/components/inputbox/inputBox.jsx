@@ -6,9 +6,20 @@ export default function InputBox() {
   const [zipcode, setZipcode] = useState("");
   const [save, setSave] = useState(false);
 
+  const [zipcode, setZipcode] = useState();
+  const [save, setSave] = useState(false);
+  const [animation, setAnimation] = useState();
+
   const handleOnChange = (event) => {
+    console.log("animation", animation);
+
     const input = event.currentTarget.value;
-    setZipcode(onlyNum(input));
+    const returnInput = maxFive(input);
+    setZipcode(onlyNum(returnInput));
+  };
+
+  const handleSubmit = (event) => {
+    setSave(true);
   };
 
   const handleSubmit = (event) => {
@@ -33,6 +44,17 @@ export default function InputBox() {
     } else {
       return text.slice(0, -1);
     }
+  }
+
+  function maxFive(text) {
+    if (text.length > 5) {
+      setAnimation("shake");
+      setTimeout(function () {
+        setAnimation();
+      }, 200);
+      return text.slice(0, 5);
+    }
+    return text;
   }
 
   return (
