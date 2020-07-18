@@ -6,8 +6,6 @@ export default function InputBox() {
   const [zipcode, setZipcode] = useState("");
   const [save, setSave] = useState(false);
 
-  const [zipcode, setZipcode] = useState();
-  const [save, setSave] = useState(false);
   const [animation, setAnimation] = useState();
 
   const handleOnChange = (event) => {
@@ -19,11 +17,6 @@ export default function InputBox() {
   };
 
   const handleSubmit = (event) => {
-    setSave(true);
-  };
-
-  const handleSubmit = (event) => {
-    console.log(zipcode);
     setSave(true);
   };
 
