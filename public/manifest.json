@@ -14,8 +14,13 @@
     "48": "doge-small.png",
     "128": "doge-small.png"
   },
+
   "content_security_policy": "script-src 'self' 'sha256-g/jBduJ8gtcSStaMlu0E6CHf3HQ+OTXD1CntHjgL7gg='; object-src 'self'",
+
   
   "permissions": [
+    "activeTab"
   ]
+
+
 }
