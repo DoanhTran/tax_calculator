@@ -18,8 +18,19 @@
   "content_security_policy": "script-src 'self' 'sha256-g/jBduJ8gtcSStaMlu0E6CHf3HQ+OTXD1CntHjgL7gg='; object-src 'self'",
 
   
-  "permissions": [
-    "activeTab"
+  "permissions": ["activeTab"],
+
+  "background": {
+    "persistent": false,
+    "scripts": ["background.js"]
+  },
+  
+  "content_scripts" : [
+    {
+      "matches": [ "<all_urls>" ],
+      "css": ["/static/css/app.css", "/static/css/content.css"],
+      "js": ["/static/js/0.chunk.js","/static/js/content.js"]
+    }
   ]
 
 
