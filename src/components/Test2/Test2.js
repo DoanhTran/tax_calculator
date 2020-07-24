@@ -41,14 +41,29 @@ export default function Test2 (){
     //}
     
 
-   function getDOM (){
+    function getDOM (){
+        //var list = []
+
         function findprice(node){
-            console.log('1');
-            if (node.nodeType === 3 && node.nodeValue.includes('$')) {
+            
+            if (node.nodeType === 3 && node.nodeValue.includes('$')  ) {
                 //list.append(node);
-                node.nodeValue = 'hello'
-                console.log('2');
+                const parentEl = node.parentElement
+                const classname = parentEl.className;
+
+                const original = node.nodeValue;
+                parentEl.addEventListener('mouseenter', event => {
+                    node.nodeValue = 'hello'
+                })
+                parentEl.addEventListener('mouseleave', event =>{
+                    node.nodeValue = original;
+                })
+                list.push(classname);
+                console.log(list);
+                console.log('$ node');
+                console.log ("classname: ", classname);
             }
+            console.log('no $');
             if (node.hasChildNodes()){
                 let children = node.childNodes;  
                 for (let i = 0; i < children.length; i++){
@@ -56,10 +71,11 @@ export default function Test2 (){
                 }      
             }
         }
-        var list = []
+       
+        var list =[];
 
         findprice(document);
-        return 'hello'
+        return list;
     }
  
     function printresult(array){
