@@ -29,6 +29,7 @@ class DisplayTax extends React.Component {
         .then(
           (result) => {
             console.log("inresult");
+            console.log(result);
             this.setState({
               isLoaded: true,
 
