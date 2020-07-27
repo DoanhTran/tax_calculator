@@ -7,9 +7,9 @@ import Test2 from './components/Test2/Test2';
 function App() {
   return (
     <div>
-      <Test2/>
+      {/*<Test2/>*/}
       {/*<Test/>*/}
-      <InputBox/>
+      {/*<InputBox/>*/}
     </div>
   );
 }
