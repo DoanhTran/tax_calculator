@@ -2,23 +2,37 @@
 import React, {useEffect, useState} from 'react'; 
 import ReactDOM from 'react-dom';
 import "./content.css";
+import Frame, { FrameContextConsumer }from 'react-frame-component';
 
+var PRICE = 'price';
+var COORDS = 'coords';
 
 function Tax() {
 
     const [price, setPrice] = useState(0)
+    // const [x, setX] = useState(0)
+    // const [y, setY] = useState(0)
 
     useEffect(() => {
         chrome.extension.onMessage.addListener(
             function(request, sender, sendResponse) {
                 console.log('received some info');
-                setPrice(request.price)
-                getDOM(price);
-                sendResponse({save: true});
-                
+                if (request.type === PRICE) {
+                    setPrice(request.price)
+                    getDOM(price);
+                    sendResponse({save: true});
+                }
             });
     })
 
+    // document.addEventListener('click', saveMousePos);
+
+    // function saveMousePos(event) {
+    //     setX(event.clientX)
+    //     setY(event.clientY)
+    //     console.log(event.clientX)
+    //     console.log(event.clientY)
+    // }
 
     function getDOM(tax){
         //var list = []
@@ -108,27 +122,22 @@ function Tax() {
         return list;
     }
 
-    // useEffect(()=>{
-    //     if (price === 5){
-    //         chrome.tabs.query({active: true}, function(tabs) {
-    //             var tab = tabs[0];
-    //             //tab_title.current = tab.title;
-
-    //             //hmm getting the body node
-    //             chrome.tabs.executeScript(tab.id, {
-    //                 code: '('+getDOM+')()'
-    //             }, printresult);
-    //         });
-    //     }
-    // }, [price])
-    
-
-
-
     return (
-        <div className='my-extension'>
-            <h1>This is the tax rate: {price}</h1>
-        </div>
+        <Frame head={[<link type="text/css" rel="stylesheet" href={chrome.runtime.getURL("/static/css/content.css")} ></link>]}> 
+              <FrameContextConsumer>
+               {
+               // Callback is invoked with iframe's window and document instances
+                   ({document, window}) => {
+                      // Render Children
+                      return (
+                        <div className='my-extension'>
+                            <h1>This is the price after taxes: {price}</h1>
+                        </div>
+                      )
+                   }
+                }
+               </FrameContextConsumer>
+            </Frame>
     )
 
 }
@@ -137,3 +146,14 @@ const app = document.createElement('div');
 app.id = "my-extension-root";
 document.body.appendChild(app);
 ReactDOM.render(<Tax />, app);
+
+document.addEventListener('click', saveMousePos);
+
+function saveMousePos(event) {
+    console.log(event.clientX)
+    console.log(event.clientY)
+    var app = document.getElementById("my-extension-root");
+    app.style.position = "absolute";
+    app.style.left = event.clientX+'px';
+    app.style.top = event.clientY+'px';
+}

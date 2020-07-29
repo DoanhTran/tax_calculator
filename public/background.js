@@ -4,6 +4,8 @@
 var urlRegex = /^file:\/\/\/:?/;
 
 var priceInfo = 5.0;
+var PRICE = 'price';
+var COORDS = 'coords';
 
 function doStuffWithDOM(element) {
     alert("I received the following DOM content:\n" + element);
@@ -45,9 +47,22 @@ chrome.browserAction.onClicked.addListener(
 chrome.contextMenus.onClicked.addListener(
     function(tab) {
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-            chrome.tabs.sendMessage(tabs[0].id, {price: priceInfo}, function(response) {
+            chrome.tabs.sendMessage(tabs[0].id, {type: PRICE, price: priceInfo}, function(response) {
         });
     }); 
 });
 
 
+// document.addEventListener('click', printMousePos);
+
+// function printMousePos(event) {
+//     console.log('clicked!')
+// }
+
+// function sendMousePos(event) {
+//     chrome.tabs.query({active: true, currentindow: true}, function(tabs) {
+//         chrome.tabs.sendMessage(tabs[0].id, {type: COORDS, x: event.clientX , y: eventClientY}, function(response) {
+//         })
+//     })
+
+// }

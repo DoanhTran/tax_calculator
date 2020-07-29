@@ -1,6 +1,6 @@
-body {
+/* body {
   margin: 0;
-  min-width: 500px; /* your desired width */
+  min-width: 500px; 
   min-height: 250px;
   max-width: 100%;
   position: relative;
@@ -15,16 +15,23 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
+} */
 
 /* src/index.css */
 #my-extension-root {
-  width: 400px;
-  height: 100%;
-  position: fixed;
-  top: 0px;
-  right: 0px;
-  z-index: 2147483647;
+  width: 20vmin;
+  height: 20vmin;
+  z-index: 1000;
+  /* top: 0;
+  right: 0; */
   background-color: white;
   box-shadow: 0px 0px 5px #0000009e;
+}
+
+#my-extension-root iframe {
+  width: 20vmin;
+  height: 20vmin;
+  border: none;
+  z-index: 2000;
+  background-color: white;
 }
