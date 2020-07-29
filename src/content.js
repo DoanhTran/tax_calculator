@@ -123,15 +123,6 @@ function Tax() {
     }
 
     return (
-<<<<<<< HEAD
-        <div className='my-extension'>
-            <h1>This is the tax rate: {price}</h1>
-            
-            <InputBox/>
-            <ReportForm/>
-        
-        </div>
-=======
         <Frame head={[<link type="text/css" rel="stylesheet" href={chrome.runtime.getURL("/static/css/content.css")} ></link>]}> 
               <FrameContextConsumer>
                {
@@ -147,7 +138,6 @@ function Tax() {
                 }
                </FrameContextConsumer>
             </Frame>
->>>>>>> 545d65320645e7174973e74de5951f89031eb00a
     )
 
 }
