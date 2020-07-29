@@ -25,8 +25,12 @@
   "content_scripts" : [
     {
       "matches": [ "<all_urls>" ],
-      "css": ["/static/css/app.css", "/static/css/content.css"],
+      "css": ["/static/css/app.css"],
       "js": ["/static/js/0.chunk.js","/static/js/content.js"]
     }
-  ]
+  ], 
+
+  "web_accessible_resources":[
+    "/static/css/content.css"
+ ]
 }
