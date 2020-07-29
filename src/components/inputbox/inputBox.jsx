@@ -42,6 +42,8 @@ export default function InputBox() {
   function maxFive(text) {
     if (text.length > 5) {
       setAnimation("shake");
+      console.log("text is longer than 5 characters")
+      console.log("animation", animation);
       setTimeout(function () {
         setAnimation();
       }, 200);
@@ -56,7 +58,7 @@ export default function InputBox() {
       <label>Zipcode &#160;</label>
       <input
         type="text"
-        maxLength="5"
+        maxLength="6"
         value={zipcode}
         size="10"
         onChange={handleOnChange}

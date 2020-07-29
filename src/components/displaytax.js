@@ -20,7 +20,7 @@ class DisplayTax extends React.Component {
       console.log("saveindisplay");
       this.setState({ taxRate: fetching, taxRegian: fetching });
 
-      fetch("http://0.0.0.0:5000/taxrate/" + this.props.zipcode, {
+      fetch("http://0.0.0.0:5000/taxrate/" + this.props.zipcode + "/", {
         methode: "GET",
 
         // headers: { "Access-Control-Allow-Origin": "*" },
