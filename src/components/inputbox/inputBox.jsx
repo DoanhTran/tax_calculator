@@ -51,7 +51,7 @@ export default function InputBox() {
   }
 
   return (
-    // <form className="zipcodeForm" onSubmit={handleSubmit}>
+    
     <div>
       <label>Zipcode &#160;</label>
       <input
@@ -69,5 +69,5 @@ export default function InputBox() {
       {/* </form> */}
       <DisplayTax save={save} zipcode={zipcode}></DisplayTax>
     </div>
-  );
+  )
 }

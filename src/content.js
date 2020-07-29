@@ -2,6 +2,9 @@
 import React, {useEffect, useState} from 'react'; 
 import ReactDOM from 'react-dom';
 import "./content.css";
+import InputBox from "./components/inputbox/inputBox";
+import ReportForm from "./components/reportForm";
+
 
 
 function Tax() {
@@ -128,6 +131,10 @@ function Tax() {
     return (
         <div className='my-extension'>
             <h1>This is the tax rate: {price}</h1>
+            
+            <InputBox/>
+            <ReportForm/>
+        
         </div>
     )
 

@@ -4,6 +4,8 @@ const OPEN = "open";
 const FORM = "write";
 const REQUEST = "request";
 let report = "";
+
+
 class ReportForm extends React.Component {
   constructor(props) {
     super(props);
