@@ -51,7 +51,6 @@ export default function InputBox() {
   }
 
   return (
-    // <form className="zipcodeForm" onSubmit={handleSubmit}>
     <div>
       <label>Zipcode &#160;</label>
       <input
