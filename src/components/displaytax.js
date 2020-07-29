@@ -3,6 +3,8 @@ import React from "react";
 const initial = "nodata;";
 const fetching = "fetching data";
 
+/*global chrome*/
+
 class DisplayTax extends React.Component {
   constructor(props) {
     super(props);
@@ -30,6 +32,19 @@ class DisplayTax extends React.Component {
           (result) => {
             console.log("inresult");
             console.log(result);
+            if(result.error){
+              console.log("invalid zip")
+              console.log(result.error)
+            }
+            else{
+              chrome.storage.sync.set({rate: result.data.EstimatedCombinedRate,regionName:result.data.TaxRegionName }, function() {
+                window.alert('tax saved')
+                
+
+              });
+
+            }
+
             this.setState({
               isLoaded: true,
 
