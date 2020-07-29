@@ -1,15 +1,14 @@
-import React from 'react';
-import './App.css';
-import InputBox from './components/inputbox/inputBox';
-import Test from './components/inputbox/Test';
-import Test2 from './components/Test2/Test2';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import InputBox from "./components/inputbox/inputBox";
+import ReportForm from "./components/reportForm";
 
 function App() {
   return (
     <div>
-      {/*<Test2/>*/}
-      {/*<Test/>*/}
-      {/*<InputBox/>*/}
+      <InputBox />
+      <ReportForm />
     </div>
   );
 }
