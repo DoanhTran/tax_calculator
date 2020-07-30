@@ -9,7 +9,7 @@ export default function InputBox() {
   const [animation, setAnimation] = useState();
 
   const handleOnChange = (event) => {
-    console.log("animation", animation);
+    //console.log("animation", animation);
 
     const input = event.currentTarget.value;
     const returnInput = maxFive(input);
@@ -43,9 +43,10 @@ export default function InputBox() {
     if (text.length > 5) {
       setAnimation("shake");
       console.log("text is longer than 5 characters")
-      console.log("animation", animation);
+      console.log("animation 1:", animation);
       setTimeout(function () {
         setAnimation();
+        console.log("animation 2:", animation);
       }, 200);
       return text.slice(0, 5);
     }
@@ -54,17 +55,19 @@ export default function InputBox() {
 
   return (
     
-    <div>
+    <div className = "zipcodeForm">
       <label>Zipcode &#160;</label>
       <input
+        className = {animation}
         type="text"
         maxLength="6"
+        height = "3"
         value={zipcode}
         size="10"
         onChange={handleOnChange}
         onFocus={handleFocus}
       />
-      <div>{zipcode}</div>
+
       {/* <button type="submit">Submit</button> */}
 
       {save ? "" : <button onClick={handleSubmit}>Submit</button>}

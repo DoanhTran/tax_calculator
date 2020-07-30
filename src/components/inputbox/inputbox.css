@@ -5,27 +5,29 @@
 }
 
 .zipcodeForm input {
-  width: 50vmin;
-  height: 5vmin;
-  padding: 5vmin;
+  width: 60vmin;
+  height: 15vmin;
+
+  padding: 1vmin;
   font-size: 10vmin;
   text-align: center;
   font-weight: normal;
   background: white;
   border: 1px solid #3e7fbb;
   color: #3e7fbb;
-  border-radius: 0.5vmin;
+  border-radius: 0.1vmin;
 }
 
 .zipcodeForm input:focus {
   outline: none;
-  border-radius: 0.5vmin;
+  border-radius: 0.1vmin;
 }
 
 .zipcodeForm .shake {
   animation-name: shake;
   animation-duration: 0.2s;
   animation-iteration-count: 1;
+ 
 }
 .zipcodeForm label {
   font-size: 10vmin;
@@ -34,16 +36,16 @@
 
 @keyframes shake {
   0% {
-    padding: 2vmin 2vmin 2vmin 2vmin;
+    padding: 1vmin 1vmin 1vmin 1vmin;
   }
   50% {
-    padding: 2vmin 1.5vmin 2vmin 2.5vmin;
+    padding: 1vmin 0.5vmin 1vmin 1.5vmin;
   }
   70% {
-    padding: 2vmin 2.5vmin 2vmin 1.5vmin;
+    padding: 1vmin 1.5vmin 1vmin 0.5vmin;
   }
   100% {
-    padding: 2vmin 2vmin 2vmin 2vmin;
+    padding: 1vmin 1vmin 1vmin 1vmin;
   }
 }
 .zipcodeForm label {

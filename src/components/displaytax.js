@@ -78,7 +78,7 @@ class DisplayTax extends React.Component {
         {!this.state.error ? (
           <div>
             <h6>tax rate: {this.state.taxRate}</h6>
-            <h6>tax regian name:{this.state.taxRegian}</h6>
+            <h6>tax region name:{this.state.taxRegian}</h6>
           </div>
         ) : (
           <h6>error: ${this.state.error}</h6>
