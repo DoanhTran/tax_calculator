@@ -1,10 +1,29 @@
 import React, { useState, useEffect } from "react";
 import "./inputbox.css";
 import DisplayTax from "../displaytax.js";
+/*global chrome*/
 
 export default function InputBox() {
+
+
   const [zipcode, setZipcode] = useState("");
   const [save, setSave] = useState(false);
+  useEffect(() => {
+    chrome.storage.sync.get('currentTax', function(result) {
+      console.log("get dat is called");
+        console.log('Value currently is ' + result.currentTax);
+        console.log(result)
+        console.log(result.currentTax)
+        if (result.currentTax!==undefined){
+          setZipcode(result.currentTax.zip);
+          setSave(null);
+        }
+      });
+   
+
+
+  },[]);
+  
 
   const [animation, setAnimation] = useState();
 
@@ -70,7 +89,7 @@ export default function InputBox() {
 
       {/* <button type="submit">Submit</button> */}
 
-      {save ? "" : <button onClick={handleSubmit}>Submit</button>}
+      {save|| save===null ? "" : <button onClick={handleSubmit}>Submit</button>}
       {/* </form> */}
       <DisplayTax save={save} zipcode={zipcode}></DisplayTax>
     </div>
