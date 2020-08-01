@@ -18,9 +18,9 @@ function Tax() {
     useEffect(() => {
         chrome.extension.onMessage.addListener(
             function(request, sender, sendResponse) {
-                console.log('received some info');
-                console.log('type: ', request.type);
-                if (request.type === PRICE) {
+                // console.log('received some info');
+                // console.log('type: ', request.type);
+                if (request.type === PRICE && typeof(request.priceInfo) === "number") {
                     setPrice(request.price)
                     getDOM(price);
                     sendResponse({save: true});
@@ -49,8 +49,8 @@ function Tax() {
                       return (
                         <div className='my-extension'>
                             <h1>This is the price after taxes: {price}</h1>
-                            <InputBox />
-                            <ReportForm />
+                            {/*<InputBox />
+                            <ReportForm />*/}
                         </div>
                       )
                    }
@@ -90,7 +90,7 @@ function getDOM(tax){
                 const parentEl = node.parentElement
                 const classname = parentEl.className;
 
-                const price = findPrice(node.nodeValue.slice(dollarIndex+1), 1.08)
+                const price = findPrice(node.nodeValue.slice(dollarIndex+1), tax)
 
                 const original = node.nodeValue;
                 parentEl.addEventListener('mouseenter', event => {

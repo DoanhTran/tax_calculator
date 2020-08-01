@@ -1,4 +1,4 @@
-/* body {
+body {
   margin: 0;
   min-width: 500px; 
   min-height: 250px;
@@ -15,7 +15,7 @@
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-} */
+} 
 
 /* src/index.css */
 #my-extension-root {

@@ -32,6 +32,9 @@ class DisplayTax extends React.Component {
           (result) => {
             console.log("inresult");
             console.log(result);
+            chrome.extension.sendMessage({tax: result}, function(response) {
+              console.log("tax sent");
+            });
             if(result.error){
               console.log("invalid zip")
               console.log(result.error)
