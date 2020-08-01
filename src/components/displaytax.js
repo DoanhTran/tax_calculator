@@ -48,11 +48,11 @@ class DisplayTax extends React.Component {
             console.log("inresult");
             console.log(result);
             if (result.error){
-              console.log("not valid zip")
+              console.log("not valid zipcode.")
             }
             else{
               chrome.storage.sync.set({currentTax: {rate:result.data.EstimatedCombinedRate, tReg:result.data.TaxRegionName, zip:zip} }, function() {
-                window.alert("is saved")
+                console.log("tax rate is saved.")
               });
               
             }

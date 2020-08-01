@@ -15,14 +15,17 @@ function Tax() {
     // const [x, setX] = useState(0)
     // const [y, setY] = useState(0)
 
+    //&& typeof(request.priceInfo) === "number"
+
     useEffect(() => {
         chrome.extension.onMessage.addListener(
             function(request, sender, sendResponse) {
-                // console.log('received some info');
-                // console.log('type: ', request.type);
-                if (request.type === PRICE && typeof(request.priceInfo) === "number") {
-                    setPrice(request.price)
-                    getDOM(price);
+                console.log('received some info');
+                console.log('type: ', request.type);
+                if (request.type === PRICE ) {
+                    console.log("modifying DOM")
+                    setPrice(request.price);
+                    getDOM(request.price);
                     sendResponse({save: true});
                 }
             });
@@ -90,7 +93,7 @@ function getDOM(tax){
                 const parentEl = node.parentElement
                 const classname = parentEl.className;
 
-                const price = findPrice(node.nodeValue.slice(dollarIndex+1), tax)
+                const price = findPrice(node.nodeValue.slice(dollarIndex+1), 1.08)
 
                 const original = node.nodeValue;
                 parentEl.addEventListener('mouseenter', event => {

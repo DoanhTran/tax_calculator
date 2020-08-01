@@ -3,7 +3,7 @@
 
 var urlRegex = /^file:\/\/\/:?/;
 
-var priceInfo = 1.09;
+var priceInfo = 5.0;
 var PRICE = 'price';
 var COORDS = 'coords';
 
@@ -38,8 +38,7 @@ chrome.browserAction.onClicked.addListener(
             chrome.tabs.sendMessage(tabs[0].id, {type: PRICE, price: priceInfo}, function(response) {
                 console.log("save response", response.save);
             }); 
-        });
-       
+        });   
     }
 )
 
@@ -48,20 +47,21 @@ chrome.contextMenus.onClicked.addListener(
     function(tab) {
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
             chrome.tabs.sendMessage(tabs[0].id, {type: PRICE, price: priceInfo}, function(response) {
-        });
-    }); 
-});
-
-chrome.extension.onMessage.addListener(
-    function(request, sender, sendResponse) {
-        priceInfo = request.tax;
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-            chrome.tabs.sendMessage(tabs[0].id, {type: PRICE, price: priceInfo}, function(response) {
-                console.log("save response", response.save);
-            }); 
-        });
-    } 
+            });
+        }); 
+    }
 );
+
+// chrome.extension.onMessage.addListener(
+//     function(request, sender, sendResponse) {
+//         priceInfo = request.tax;
+//         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+//             chrome.tabs.sendMessage(tabs[0].id, {type: PRICE, price: priceInfo}, function(response) {
+//                 console.log("save response", response.save);
+//             }); 
+//         });
+//     } 
+// );
 // document.addEventListener('click', printMousePos);
 
 // function printMousePos(event) {
