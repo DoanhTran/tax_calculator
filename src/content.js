@@ -3,11 +3,11 @@ import React, {useEffect, useState} from 'react';
 import ReactDOM from 'react-dom';
 import "./content.css";
 import Frame, { FrameContextConsumer }from 'react-frame-component';
-import InputBox from './components/inputbox/inputBox';
-import ReportForm from './components/reportForm';
+// import InputBox from './components/inputbox/inputBox';
+// import ReportForm from './components/reportForm';
 
 var PRICE = 'price';
-var COORDS = 'coords';
+//var COORDS = 'coords';
 
 function Tax() {
 
@@ -25,10 +25,11 @@ function Tax() {
                 if (request.type === PRICE ) {
                     console.log("modifying DOM")
                     setPrice(request.price);
-                    getDOM(request.price);
+                    getDOM(price);
                     sendResponse({save: true});
                 }
-            });
+            }
+        );
     })
 
     // document.addEventListener('click', saveMousePos);
@@ -52,8 +53,6 @@ function Tax() {
                       return (
                         <div className='my-extension'>
                             <h1>This is the price after taxes: {price}</h1>
-                            {/*<InputBox />
-                            <ReportForm />*/}
                         </div>
                       )
                    }
@@ -118,8 +117,8 @@ function getDOM(tax){
     }
    
 
-    /* Find value after the dollar sign and multiply by tax. Returns null if there is no price 
-    after the dollar sign.
+    /* Find value after the dollar sign and multiply by tax.
+    Returns null if there is no price after the dollar sign.
     Parameters: 
     text is text after the dollar sign
     tax is the tax rate (e.g 1.08)
