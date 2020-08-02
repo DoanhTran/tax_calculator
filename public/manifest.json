@@ -19,7 +19,8 @@
   "permissions": [
     "activeTab", 
     "contextMenus", 
-    "storage"
+    "storage", 
+    "tabs"
   ],
 
   "background": {

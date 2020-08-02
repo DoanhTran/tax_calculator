@@ -41,8 +41,6 @@ function Tax() {
     //     console.log(event.clientY)
     // }
 
-    
-
     return (
         <Frame head={[<link type="text/css" rel="stylesheet" href={chrome.runtime.getURL("/static/css/content.css")} ></link>]}> 
               <FrameContextConsumer>
