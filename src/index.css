@@ -20,18 +20,20 @@ code {
 /* src/index.css */
 #my-extension-root {
   width: 20vmin;
-  height: 20vmin;
-  z-index: 1000;
+  height: 10vmin;
+  z-index: 1000000;
   /* top: 0;
   right: 0; */
   background-color: white;
   box-shadow: 0px 0px 5px #0000009e;
+  pointer-events: none;
 }
 
 #my-extension-root iframe {
   width: 20vmin;
-  height: 20vmin;
+  height: 10vmin;
   border: none;
-  z-index: 2000;
+  z-index: 100000;
   background-color: white;
 }
+

@@ -3,8 +3,6 @@ import React from "react";
 const initial = "nodata;";
 const fetching = "fetching data";
 
-/*global chrome*/
-
 class DisplayTax extends React.Component {
   constructor(props) {
     super(props);
@@ -12,32 +10,17 @@ class DisplayTax extends React.Component {
       error: null,
       isLoaded: false,
       taxRate: initial,
-      taxRegion: initial,
+      taxRegian: initial,
     };
     console.log("display");
-   
   }
-
-  componentDidMount(){
-    chrome.storage.sync.get('currentTax', function(result) {
-      console.log("get dat is called in display");
-        console.log('Value currently is ' + result.currentTax);
-        console.log(result)
-        console.log(result.currentTax)
-        if (result.currentTax!==undefined){
-          this.setState({taxRate:result.currentTax.rate, taxRegion:result.currentTax.tReg});
-        }
-      }.bind(this));
-  }
-
 
   componentDidUpdate(prevProps) {
     if (this.props.save !== prevProps.save && this.props.save === true) {
       console.log("saveindisplay");
-      const zip = this.props.zipcode
-      this.setState({ taxRate: fetching, taxRegion: fetching });
+      this.setState({ taxRate: fetching, taxRegian: fetching });
 
-      fetch("http://0.0.0.0:5000/taxrate/" + zip, {
+      fetch("http://0.0.0.0:5000/taxrate/" + this.props.zipcode, {
         methode: "GET",
 
         // headers: { "Access-Control-Allow-Origin": "*" },
@@ -47,25 +30,17 @@ class DisplayTax extends React.Component {
           (result) => {
             console.log("inresult");
             console.log(result);
-            if (result.error){
-              console.log("not valid zipcode.")
-            }
-            else{
-              chrome.storage.sync.set({currentTax: {rate:result.data.EstimatedCombinedRate, tReg:result.data.TaxRegionName, zip:zip} }, function() {
-                console.log("tax rate is saved.")
-              });
-              
-            }
             this.setState({
               isLoaded: true,
 
               taxRate: result.error
                 ? result.error
                 : result.data.EstimatedCombinedRate,
-              taxRegion: result.error
+              taxRegian: result.error
                 ? result.error
                 : result.data.TaxRegionName,
             });
+            this.props.updateTax(result.data.EstimatedCombinedRate);
           },
           (error) => {
             console.log("inerror");
@@ -77,7 +52,7 @@ class DisplayTax extends React.Component {
       //   this.props.save !== prevProps.save &&
       //   this.props.save === false
       // ) {
-      //     this.setState({ taxRate: fetching, taxRegion: fetching })
+      //     this.setState({ taxRate: fetching, taxRegian: fetching })
 
       // }
     }
@@ -88,8 +63,8 @@ class DisplayTax extends React.Component {
       <div>
         {!this.state.error ? (
           <div>
-            <h6>tax rate: {this.state.taxRate}</h6>
-            <h6>tax regian name:{this.state.taxRegion}</h6>
+            <h6>Tax Rate: {this.state.taxRate}</h6>
+            <h6>Location:{this.state.taxRegian}</h6>
           </div>
         ) : (
           <h6>error: ${this.state.error}</h6>
