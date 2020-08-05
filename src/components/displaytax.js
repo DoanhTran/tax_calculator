@@ -18,6 +18,7 @@ class DisplayTax extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.save !== prevProps.save && this.props.save === true) {
+      const zip = this.props.zipcode;
       console.log("saveindisplay");
       this.setState({ taxRate: fetching, taxRegian: fetching });
 
