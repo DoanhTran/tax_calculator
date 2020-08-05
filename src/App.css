@@ -45,4 +45,100 @@
   grid-gap: 10px 10px;
   grid-template-columns: 24px auto auto auto 24px;
   grid-template-rows: 20px auto auto auto auto 20px;
+  background-color: F3F3F3;
+}
+
+.web-enable-container{
+  grid-column: 2/5;
+  grid-row: 2;
+  height: 20px;
+  width: 20px;
+  background-color: red;
+}
+
+.multisearch-container{
+  display:flex;
+  flex-direction: column;
+  grid-column: 2/5;
+  grid-row-start: 3;
+  border-radius: 10px;
+  background-color: #FFFFFF;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.multisearch-container.green-outline{
+  border: 2px solid #039D66;
+}
+
+
+
+
+
+
+.searchBar-container{
+  display:flex;
+  background-color: transparent;
+
+}
+
+.zip-input{
+  flex-grow: 1;
+  border: none;
+  background-color: transparent;
+  border-radius: 10px;
+
+}
+
+.zip-input:focus{
+  outline: rgba(0, 0, 0, 1);
+  
+
+}
+
+.glass-icon{
+  height: 40px;
+  width: 40px;
+  background-color: transparent;
+  border: none;
+  justify-self: end;
+
+}
+.glass-icon:active{
+  outline: none;
+}
+.glass-icon:focus{
+  outline: none;
+}
+.glass-icon.glass-grey{
+  background-image: url(greyGlass.png);
+}
+
+.glass-icon.glass-green{
+  background-image: url(greenGlass.png);
+}
+
+.glass-icon.glass-green:hover{
+  background-image: url(greenGlassActive.png);
+}
+.glass-icon.glass-grey:hover{
+  background-image: url(greyGlassActive.png);
+}
+
+.search-option-container{
+  display: flex;
+  flex-direction: column;
+}
+
+.savedOptions{
+  border: none;
+  background-color: #FFFFFF;
+}
+
+.savedOptions:hover{
+  background-color: #F0F0F0;
+}
+
+.savedOptions:active{
+  background-color: #E0E0E0;
+  outline: none;
 }

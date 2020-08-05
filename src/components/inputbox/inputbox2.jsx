@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createRef } from "react";
-import "./inputbox.css";
+import "../../App.css";
 import DisplayTax from "../displaytax.js";
 /*global chrome*/
 
@@ -32,6 +32,13 @@ export default function NewInputBox() {
   useEffect(()=>{
     if (save|| save===null){
       searchContainerRef.current.classList.replace('green-outline', 'no-outline')
+      //inputBoxRef.current.removeEventListener("keyup")
+    }
+    if (save===false){
+      // inputBoxRef.current.
+      //   }
+      // })
+      
     }
     
 
@@ -73,12 +80,18 @@ export default function NewInputBox() {
  
     return html
   }
+  const focusInput = (event) => {
+    inputBoxRef.current.focus()
 
+  }
   const handleFocus = (event) => {
     searchContainerRef.current.classList.replace('no-outline', 'green-outline')
-    inputBoxRef.current.focus()
-    
     setSave(false);
+    event.currentTarget.addEventListener("keyup", function(event) {
+         if (zipcode!=='' && event.keyCode === 13){
+           setSave(true)
+         }})
+ 
   };
 
   /* Extract only numbers out of input box and returns a string of text 
@@ -113,13 +126,13 @@ export default function NewInputBox() {
   return (
     
     
-    <div>
+    <>
       <label>Zipcode &#160;</label>
       <div className = "multisearch-container no-outline" ref={searchContainerRef}>
       <div className="searchBar-container normal">
               <input
                   ref={inputBoxRef}
-                  className = {animation}
+                  className = "zip-input"
                   type="text"
                   maxLength="6"
                   height = "3"
@@ -127,11 +140,13 @@ export default function NewInputBox() {
                   size="10"
                   onChange={handleOnChange}
                   onFocus={handleFocus}
+                  
                 />
+
                 
-                {save|| save===null ? <button className="glass-icon glass-grey" onClick={handleFocus}>focus</button> : <button className="glass-icon glass-green"onClick={handleSubmit}>Submit</button>}
+                {save|| save===null ? <button className="glass-icon glass-grey" onClick={focusInput}></button> : <button className="glass-icon glass-green"onClick={handleSubmit}></button>}
                 </div>
-                {save|| save===null ? '': <div option>{make_htmlList()}</div>}
+                <div className="search-option-container">{save|| save===null ? '':make_htmlList()}</div>
 
                 </div>
     
@@ -142,6 +157,6 @@ export default function NewInputBox() {
       {/* {save|| save===null ? "" : <button onClick={handleSubmit}>Submit</button>} */}
       {/* </form> */}
       {/* <DisplayTax save={save} zipcode={zipcode}></DisplayTax> */}
-    </div>
+    </>
   )
 }

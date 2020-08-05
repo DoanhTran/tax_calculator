@@ -7,6 +7,7 @@ import ReportForm from "./components/reportForm";
 function App() {
   return (
     <div className="grid-container">
+      <div className="web-enable-container"></div>
       <NewInputBox />
       {/* <ReportForm /> */}
     </div>
