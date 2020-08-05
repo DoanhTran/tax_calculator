@@ -18,9 +18,10 @@ class DisplayTax extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.save !== prevProps.save && this.props.save === true) {
       console.log("saveindisplay");
-      this.setState({ taxRate: fetching, taxRegian: fetching });
+      const zip = this.props.zipcode
+      this.setState({ taxRate: fetching, taxRegion: fetching });
 
-      fetch("http://0.0.0.0:5000/taxrate/" + this.props.zipcode, {
+      fetch("http://0.0.0.0:5000/taxrate/" + zip, {
         methode: "GET",
 
         // headers: { "Access-Control-Allow-Origin": "*" },
@@ -30,17 +31,25 @@ class DisplayTax extends React.Component {
           (result) => {
             console.log("inresult");
             console.log(result);
+            if (result.error){
+              console.log("not valid zipcode.")
+            }
+            else{
+                chrome.storage.sync.set({currentTax: {rate:result.data.EstimatedCombinedRate, tReg:result.data.TaxRegionName, zip:zip} }, function() {
+                console.log("tax rate is saved.")
+              });
+              
+            }
             this.setState({
               isLoaded: true,
 
               taxRate: result.error
                 ? result.error
                 : result.data.EstimatedCombinedRate,
-              taxRegian: result.error
+              taxRegion: result.error
                 ? result.error
                 : result.data.TaxRegionName,
             });
-            this.props.updateTax(result.data.EstimatedCombinedRate);
           },
           (error) => {
             console.log("inerror");
@@ -52,7 +61,7 @@ class DisplayTax extends React.Component {
       //   this.props.save !== prevProps.save &&
       //   this.props.save === false
       // ) {
-      //     this.setState({ taxRate: fetching, taxRegian: fetching })
+      //     this.setState({ taxRate: fetching, taxRegion: fetching })
 
       // }
     }
