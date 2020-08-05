@@ -1,3 +1,4 @@
+/*global chrome*/
 import React from "react";
 
 const initial = "nodata;";
@@ -18,10 +19,9 @@ class DisplayTax extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.save !== prevProps.save && this.props.save === true) {
       console.log("saveindisplay");
-      const zip = this.props.zipcode
-      this.setState({ taxRate: fetching, taxRegion: fetching });
+      this.setState({ taxRate: fetching, taxRegian: fetching });
 
-      fetch("http://0.0.0.0:5000/taxrate/" + zip, {
+      fetch("http://0.0.0.0:5000/taxrate/" + this.props.zipcode, {
         methode: "GET",
 
         // headers: { "Access-Control-Allow-Origin": "*" },
@@ -46,10 +46,11 @@ class DisplayTax extends React.Component {
               taxRate: result.error
                 ? result.error
                 : result.data.EstimatedCombinedRate,
-              taxRegion: result.error
+              taxRegian: result.error
                 ? result.error
                 : result.data.TaxRegionName,
             });
+            this.props.updateTax(result.data.EstimatedCombinedRate);
           },
           (error) => {
             console.log("inerror");
@@ -61,7 +62,7 @@ class DisplayTax extends React.Component {
       //   this.props.save !== prevProps.save &&
       //   this.props.save === false
       // ) {
-      //     this.setState({ taxRate: fetching, taxRegion: fetching })
+      //     this.setState({ taxRate: fetching, taxRegian: fetching })
 
       // }
     }
