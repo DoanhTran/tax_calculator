@@ -18,17 +18,17 @@ class DisplayTax extends React.Component {
    
   }
 
-  componentDidMount(){
-    chrome.storage.sync.get('currentTax', function(result) {
-      console.log("get dat is called in display");
-        console.log('Value currently is ' + result.currentTax);
-        console.log(result)
-        console.log(result.currentTax)
-        if (result.currentTax!==undefined){
-          this.setState({taxRate:result.currentTax.rate, taxRegion:result.currentTax.tReg});
-        }
-      }.bind(this));
-  }
+  // componentDidMount(){
+  //   chrome.storage.sync.get('currentTax', function(result) {
+  //     console.log("get dat is called in display");
+  //       console.log('Value currently is ' + result.currentTax);
+  //       console.log(result)
+  //       console.log(result.currentTax)
+  //       if (result.currentTax!==undefined){
+  //         this.setState({taxRate:result.currentTax.rate, taxRegion:result.currentTax.tReg});
+  //       }
+  //     }.bind(this));
+  // }
 
 
   componentDidUpdate(prevProps) {
@@ -51,9 +51,9 @@ class DisplayTax extends React.Component {
               console.log("not valid zipcode.")
             }
             else{
-              chrome.storage.sync.set({currentTax: {rate:result.data.EstimatedCombinedRate, tReg:result.data.TaxRegionName, zip:zip} }, function() {
-                console.log("tax rate is saved.")
-              });
+              // chrome.storage.sync.set({currentTax: {rate:result.data.EstimatedCombinedRate, tReg:result.data.TaxRegionName, zip:zip} }, function() {
+              //   console.log("tax rate is saved.")
+              // });
               
             }
             this.setState({

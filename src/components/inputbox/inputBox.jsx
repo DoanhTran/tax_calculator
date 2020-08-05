@@ -8,27 +8,27 @@ export default function InputBox() {
 
   const [zipcode, setZipcode] = useState("");
   const [save, setSave] = useState(false);
-  useEffect(() => {
-    chrome.storage.sync.get('currentTax', function(result) {
-      console.log("get dat is called");
-        console.log('Value currently is ' + result.currentTax);
-        console.log(result)
-        console.log(result.currentTax)
-        if (result.currentTax!==undefined){
-          setZipcode(result.currentTax.zip);
-          setSave(null);
-        }
-      });
+  // useEffect(() => {
+  //   chrome.storage.sync.get('currentTax', function(result) {
+  //     console.log("get dat is called");
+  //       console.log('Value currently is ' + result.currentTax);
+  //       console.log(result)
+  //       console.log(result.currentTax)
+  //       if (result.currentTax!==undefined){
+  //         setZipcode(result.currentTax.zip);
+  //         setSave(null);
+  //       }
+  //     });
    
 
 
-  },[]);
+  // },[]);
   
 
   const [animation, setAnimation] = useState();
 
   const handleOnChange = (event) => {
-    //console.log("animation", animation);
+    console.log("animation", animation);
 
     const input = event.currentTarget.value;
     const returnInput = maxFive(input);
@@ -61,11 +61,8 @@ export default function InputBox() {
   function maxFive(text) {
     if (text.length > 5) {
       setAnimation("shake");
-      console.log("text is longer than 5 characters")
-      console.log("animation 1:", animation);
       setTimeout(function () {
         setAnimation();
-        console.log("animation 2:", animation);
       }, 200);
       return text.slice(0, 5);
     }
@@ -73,25 +70,22 @@ export default function InputBox() {
   }
 
   return (
-    
-    <div className = "zipcodeForm">
+    <div>
       <label>Zipcode &#160;</label>
       <input
-        className = {animation}
         type="text"
-        maxLength="6"
-        height = "3"
+        maxLength="5"
         value={zipcode}
         size="10"
         onChange={handleOnChange}
         onFocus={handleFocus}
       />
-
+      <div>{zipcode}</div>
       {/* <button type="submit">Submit</button> */}
 
       {save|| save===null ? "" : <button onClick={handleSubmit}>Submit</button>}
       {/* </form> */}
       <DisplayTax save={save} zipcode={zipcode}></DisplayTax>
     </div>
-  )
+  );
 }

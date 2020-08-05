@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from 'react'; 
 import ReactDOM from 'react-dom';
 import "./content.css";
-import Frame, { FrameContextConsumer }from 'react-frame-component';
+//import Frame, { FrameContextConsumer }from 'react-frame-component';
 // import InputBox from './components/inputbox/inputBox';
 // import ReportForm from './components/reportForm';
 
@@ -43,11 +43,12 @@ function Tax() {
 
     
 
-    return (
-        <Frame head={[<link type="text/css" rel="stylesheet" href={chrome.runtime.getURL("/static/css/content.css")} ></link>]}> 
-              <FrameContextConsumer>
+    return null
+        
+        {/* <Frame head={[<link type="text/css" rel="stylesheet" href={chrome.runtime.getURL("/static/css/content.css")} ></link>]}> 
+             <FrameContextConsumer>
                {
-               // Callback is invoked with iframe's window and document instances
+               //Callback is invoked with iframe's window and document instances
                    ({document, window}) => {
                       // Render Children
                       return (
@@ -58,8 +59,8 @@ function Tax() {
                    }
                 }
                </FrameContextConsumer>
-            </Frame>
-    )
+            </Frame> */}
+    
 
 }
 
