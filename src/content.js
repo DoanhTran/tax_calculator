@@ -16,6 +16,8 @@ function Tax() {
     // const [y, setY] = useState(0)
     //const pricetag = useRef(null);
     const windowSize = useRef(window.innerHeight);
+    var timer;
+
 
     
     chrome.extension.onMessage.addListener(
@@ -32,6 +34,22 @@ function Tax() {
             }
         }
     );
+
+    
+    document.addEventListener('scroll', handleScroll);
+    function handleScroll(event){
+        console.log("user is scrolling");
+        if (timer){
+            clearTimeout(timer);
+        }else{
+            console.log("scroll start");
+        }
+
+        timer = setTimeout( function(){
+            getDOM(tax);
+        }, 300);
+    }
+
 
     
     // document.addEventListener('mousemove', updateDOM);
