@@ -12,10 +12,9 @@ var PRICE = 'price';
 function Tax() {
 
     const [price, setPrice] = useState(0)
-    // const [x, setX] = useState(0)
-    // const [y, setY] = useState(0)
-
-    //&& typeof(request.priceInfo) === "number"
+    var url = 'URL';
+    const [urlList, setUrlList] = useState({})
+    const [currUrl, setCurrUrl] = useState(null);
 
     useEffect(() => {
         chrome.extension.onMessage.addListener(
@@ -32,32 +31,45 @@ function Tax() {
         );
     })
 
-    // document.addEventListener('click', saveMousePos);
-
-    // function saveMousePos(event) {
-    //     setX(event.clientX)
-    //     setY(event.clientY)
-    //     console.log(event.clientX)
-    //     console.log(event.clientY)
-    // }
-
-    return (
-        <Frame head={[<link type="text/css" rel="stylesheet" href={chrome.runtime.getURL("/static/css/content.css")} ></link>]}> 
-              <FrameContextConsumer>
-               {
-               // Callback is invoked with iframe's window and document instances
-                   ({document, window}) => {
-                      // Render Children
-                      return (
-                        <div className='my-extension'>
-                            <h1>This is the price after taxes: {price}</h1>
-                        </div>
-                      )
-                   }
-                }
-               </FrameContextConsumer>
-            </Frame>
+    console.log("HELLO WTF WTF ")
+    chrome.extension.onMessage.addListener(
+        function(request, sender, sendResponse) {
+            console.log('received some urls');
+            console.log('type: ', request.type);
+            if (request.type === url ) {
+                setUrlList(request.urlList);
+            }
+            return true;
+        }
     )
+
+    // chrome.tabs.onActivated.addListener(function(activeInfo) {
+    //     chrome.tabs.get(activeInfo.tabId, function(tab){
+    //        console.log(tab.url);
+    //     });
+    // }); 
+
+    if (!(currUrl in urlList)) return null;
+
+    else {
+        return (
+            <Frame head={[<link type="text/css" rel="stylesheet" href={chrome.runtime.getURL("/static/css/content.css")} ></link>]}> 
+                <FrameContextConsumer>
+                {
+                // Callback is invoked with iframe's window and document instances
+                    ({document, window}) => {
+                        // Render Children
+                        return (
+                            <div className='my-extension'>
+                                <h1>This is the price after taxes: {price}</h1>
+                            </div>
+                        )
+                    }
+                    }
+                </FrameContextConsumer>
+                </Frame>
+        )
+    }
 
 }
 
@@ -162,3 +174,19 @@ function getDOM(tax){
     findDollarSign(document);
     return list;
 }
+
+
+// document.querySelector('button').addEventListener('click', () => {
+//     chrome.tabs.query({active: true, currentWindow: true}, tabs => {
+//         const url = new URL(tabs[0].url);
+//         const domain = url.hostname;
+
+//         chrome.permissions.request({
+//             origins : [domain]
+//         }, granted => {
+//             if (granted) {
+                
+//             }
+//         })
+//     })
+// })

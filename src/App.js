@@ -5,9 +5,10 @@
  import ReportForm from "./components/reportForm";
  
 function App() {
- 
+   const url = 'URL'
    const [trackSite, setTrackSite] = useState(false);
-   const [urlList, setUrlList] = useState([]);
+   const [urlList, setUrlList] = useState({});
+
    console.log(urlList)
    console.log('track site')
    console.log(trackSite)
@@ -21,16 +22,41 @@ function App() {
       const url = new URL(tabs[0].url);
       const domain = url.hostname;
 
+      console.log(domain)
+      let urlCopy = Object.assign({}, urlList)
+    
       if (trackSite) {
-        setUrlList(urlList.concat(domain));
+        if (!(domain in urlList)) {
+          urlCopy[domain] = 'tracking'
+          setUrlList(urlCopy)
+        }
       }
-  
-      // else {
-      //   let index = urlList.indexOf(url);
-      //   setUrlList(urlList.splice(index, 1));
-      // }
+
+      else {
+        if (domain in urlList) {
+          delete urlCopy[domain]
+          setUrlList(urlCopy)
+        }
+      }
     })
    }, [trackSite])
+
+  //  useEffect(() => {
+  //     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+  //         chrome.tabs.sendMessage(tabs[0].id, {type: url, urlList: urlList}, function(response) {
+  //           console.log('sending message')
+  //         })
+  //     })
+  //   //  chrome.runtime.sendMessage({type: url, urlList: urlList}, () => {
+  //   //   console.log('sending message')
+  //   //  })
+  // //   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+  // //     chrome.tabs.sendMessage(tabs[0].id, {type: url, urlList: urlList}, function(response) {
+  // //     });
+  // // }); 
+
+  // }, [urlList])
+   
    
    return (
      <div>
