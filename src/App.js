@@ -34,11 +34,13 @@ function App() {
     })
    }, [trackSite])
    
-//   chrome.storage.sync.get('currentTax', function(result) {
-//     if (result.currentTax!==undefined){
-//       setTaxRate(parseFloat(result.currentTax.rate)+1);
-//     }
-//  })
+
+    chrome.storage.sync.get('currentTax', function(result) {
+      if (result.currentTax!==undefined){
+        setTaxRate(parseFloat(result.currentTax.rate)+1);
+      }
+    })
+  
 
   useEffect(()=>{
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
