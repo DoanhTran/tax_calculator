@@ -7,6 +7,9 @@ var taxRate = 5.0;
 var PRICE = 'price';
 var COORDS = 'coords';
 var whitelist = true;
+var url = 'URL';
+var currUrl = null;
+var urlList = {};
 
 function doStuffWithDOM(element) {
     alert("I received the following DOM content:\n" + element);
@@ -59,19 +62,43 @@ chrome.contextMenus.onClicked.addListener(
 //             chrome.tabs.sendMessage(tabs[0].id, {type: PRICE, price: priceInfo}, function(response) {
 //                 console.log("save response", response.save);
 //             }); 
-//         });
-//     } 
+//         });   
+//     }
+// )
+
+// chrome.contextMenus.onClicked.addListener(
+//     function(tab) {
+//         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+//             chrome.tabs.sendMessage(tabs[0].id, {type: PRICE, price: priceInfo}, function(response) {
+//             });
+//         }); 
+//     }
 // );
+
+// chrome.runtime.onMessage.addListener(
+//     function(request, sender, sendResponse) {
+//         console.log('received some urls');
+//         console.log('type: ', request.type);
+//         if (request.type === url ) {
+//             console.log("modifying URLLISt")
+//             // setPrice(request.price);
+//             // getDOM(price);
+//             // sendResponse({save: true});
+//         }
+//         return true;
+//     }
+// )
 // document.addEventListener('click', printMousePos);
 
-// function printMousePos(event) {
-//     console.log('clicked!')
-// }
 
-// function sendMousePos(event) {
-//     chrome.tabs.query({active: true, currentindow: true}, function(tabs) {
-//         chrome.tabs.sendMessage(tabs[0].id, {type: COORDS, x: event.clientX , y: eventClientY}, function(response) {
-//         })
-//     })
+chrome.tabs.onActivated.addListener(function(activeInfo) {
+    console.log('hello background script')
+    chrome.tabs.get(activeInfo.tabId, function(tab){
+       currUrl = tab.url
+       chrome.tabs.executeScript(null, {file: "./static/js/content.js"})
+       console.log('no error exeuction fukc')
+    });
+}); 
 
-// }
+console.log('this is background script')
+console.log(currUrl)

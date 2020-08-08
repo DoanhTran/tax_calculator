@@ -12,13 +12,15 @@ function App() {
 
   const [trackSite, setTrackSite] = useState(false);
    const [urlList, setUrlList] = useState([]);
-   console.log(urlList)
+   const url = 'URL'
+
    console.log('track site')
    console.log(trackSite)
  
    const handleToggle = () => {
      setTrackSite(!trackSite)
    }
+
    useEffect(() => {
     chrome.tabs.query({active: true, currentWindow: true}, tabs => {
       const url = new URL(tabs[0].url);
@@ -31,6 +33,22 @@ function App() {
       //   let index = urlList.indexOf(url);
       //   setUrlList(urlList.splice(index, 1));
       // }
+      console.log(domain)
+      let urlCopy = Object.assign({}, urlList)
+    
+      if (trackSite) {
+        if (!(domain in urlList)) {
+          urlCopy[domain] = 'tracking'
+          setUrlList(urlCopy)
+        }
+      }
+
+      else {
+        if (domain in urlList) {
+          delete urlCopy[domain]
+          setUrlList(urlCopy)
+        }
+      }
     })
    }, [trackSite])
    

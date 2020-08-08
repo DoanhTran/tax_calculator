@@ -17,7 +17,9 @@ function Tax() {
     //const pricetag = useRef(null);
     const windowSize = useRef(window.innerHeight);
     var timer;
-
+    var url = 'URL';
+    const [urlList, setUrlList] = useState({})
+    const [currUrl, setCurrUrl] = useState(null);
 
     
     chrome.extension.onMessage.addListener(
@@ -32,6 +34,13 @@ function Tax() {
                     getDOM(request.tax)
                 }
             }
+
+            console.log('received some urls');
+            console.log('type: ', request.type);
+            if (request.type === url ) {
+                setUrlList(request.urlList);
+            }
+            return true;
         }
     );
 
