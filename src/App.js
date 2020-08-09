@@ -8,64 +8,64 @@ import ReportForm from "./components/reportForm";
 function App() {
   var PRICE = "price";
   const [taxRate, setTaxRate] = useState();
-  const [whitelist, setWhiteList] = useState(true);
-
-  const [trackSite, setTrackSite] = useState(false);
-   const [urlList, setUrlList] = useState([]);
-   const url = 'URL'
-
-   console.log('track site')
-   console.log(trackSite)
- 
-   const handleToggle = () => {
-     setTrackSite(!trackSite)
-   }
-
-   useEffect(() => {
-    chrome.tabs.query({active: true, currentWindow: true}, tabs => {
-      const url = new URL(tabs[0].url);
-      const domain = url.hostname;
-      if (trackSite) {
-        setUrlList(urlList.concat(domain));  
-      }
-      
-      // else {
-      //   let index = urlList.indexOf(url);
-      //   setUrlList(urlList.splice(index, 1));
-      // }
-      console.log(domain)
-      let urlCopy = Object.assign({}, urlList)
-    
-      if (trackSite) {
-        if (!(domain in urlList)) {
-          urlCopy[domain] = 'tracking'
-          setUrlList(urlCopy)
-        }
-      }
-
-      else {
-        if (domain in urlList) {
-          delete urlCopy[domain]
-          setUrlList(urlCopy)
-        }
-      }
-    })
-   }, [trackSite])
-   
-
-    chrome.storage.sync.get('currentTax', function(result) {
-      if (result.currentTax!==undefined){
-        setTaxRate(parseFloat(result.currentTax.rate)+1);
-      }
-    })
   
+  const [trackSite, setTrackSite] = useState(false);
+  const [urlList, setUrlList] = useState([]);
+  const url = 'URL'
+
+  const handleToggle = () => {
+    setTrackSite(!trackSite)
+  }
+
+
+  useEffect(() => {
+  chrome.tabs.query({active: true, currentWindow: true}, tabs => {
+    const url = new URL(tabs[0].url);
+    const domain = url.hostname;
+    if (trackSite) {
+      setUrlList(urlList.concat(domain));  
+    }
+    
+    // else {
+    //   let index = urlList.indexOf(url);
+    //   setUrlList(urlList.splice(index, 1));
+    // }
+   
+    let urlCopy = Object.assign({}, urlList)
+  
+    if (trackSite) {
+      if (!(domain in urlList)) {
+        urlCopy[domain] = 'tracking'
+        setUrlList(urlCopy)
+      }
+    }
+
+    else {
+      if (domain in urlList) {
+        delete urlCopy[domain]
+        setUrlList(urlCopy)
+      }
+    }
+  })
+  }, [trackSite])
+
 
   useEffect(()=>{
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: PRICE, tax: taxRate, whitelist: urlList}, function(response) {
+      chrome.tabs.sendMessage(tabs[0].id, {type: PRICE, tax: taxRate}, function(response) {
       }); 
     });   
-  },[taxRate, urlList]);
+  },[taxRate]);
+
+
+  useEffect(() => {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {type: url, urlList: urlList}, function(response) {
+        console.log('sending message')
+        console.log('this is url: ', urlList) 
+      })      
+    })    //  chrome.runtime.sendMessage({type: url, urlList: urlList}, () => {     //   console.log('sending message')     //  })   //   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {   //     chrome.tabs.sendMessage(tabs[0].id, {type: url, urlList: urlList}, function(response) {   //     });   // });     
+  }, [urlList])
 
 
   return (

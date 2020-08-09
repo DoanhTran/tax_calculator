@@ -1,6 +1,6 @@
  /*global chrome*/
 import React, {useEffect, useState, useRef} from 'react'; 
-import ReactDOM from 'react-dom';
+import ReactDOM, { findDOMNode } from 'react-dom';
 import "./content.css";
 import Frame, { FrameContextConsumer }from 'react-frame-component';
 
@@ -11,7 +11,7 @@ function Tax() {
 
     const [tax, setTax] = useState();
     const [price, setPrice] = useState();
-    const [whitelist, setWhiteList] = useState(true);
+    //const [whitelist, setWhiteList] = useState(true);
     // const [x, setX] = useState(0)
     // const [y, setY] = useState(0)
     //const pricetag = useRef(null);
@@ -21,14 +21,21 @@ function Tax() {
     const [urlList, setUrlList] = useState({})
     const [currUrl, setCurrUrl] = useState(null);
 
-    
+
+    chrome.storage.sync.get('currentTax', function(result) {
+        if (result.currentTax!==undefined){
+            setTax(parseFloat(result.currentTax.rate)+1);
+            getDOM(parseFloat(result.currentTax.rate)+1);
+        }
+    })
+
+
     chrome.extension.onMessage.addListener(
         function(request, sender, sendResponse) {
             console.log('received some info');
             console.log("tax type",typeof(request.tax))
             if (request.type === PRICE && typeof(request.tax) === "number") {
                 setTax(request.tax);
-                setWhiteList(request.whitelist);
                 if (request.whitelist){
                     console.log("tax rate", request.tax);
                     getDOM(request.tax)
@@ -37,26 +44,19 @@ function Tax() {
 
             console.log('received some urls');
             console.log('type: ', request.type);
-            if (request.type === url ) {
-                setUrlList(request.urlList);
-            }
-            return true;
+
         }
     );
 
     
     document.addEventListener('scroll', handleScroll);
     function handleScroll(event){
-        console.log("user is scrolling");
         if (timer){
             clearTimeout(timer);
-        }else{
-            console.log("scroll start");
         }
-
         timer = setTimeout( function(){
             getDOM(tax);
-        }, 300);
+        }, 200);
     }
 
 
@@ -192,20 +192,22 @@ function Tax() {
     return (
         <Frame head={[<link type="text/css" rel="stylesheet" href={chrome.runtime.getURL("/static/css/content.css")} ></link>]}> 
             <FrameContextConsumer>
-            {
-            // Callback is invoked with iframe's window and document instances
-                ({document, window}) => {
-                    // Render Children
-                    return (
-                    <div className='my-extension'>
-                        <h1>{price}</h1>
-                    </div>
-                    )
+                {
+                    ({document, window}) => {
+                        return(
+                            <div className='my-extension'>
+                                <h1>{price}</h1>
+                            </div>
+                        )
+                    }
                 }
-            }
+            
+                
             </FrameContextConsumer>
         </Frame>
 
+        
+        
     )
 
 }
@@ -226,3 +228,21 @@ function saveMousePos(event) {
     app.style.left = event.pageX+'px';
     app.style.top = event.pageY+'px';
 }
+
+
+/* <Frame head={[<link type="text/css" rel="stylesheet" href={chrome.runtime.getURL("/static/css/content.css")} ></link>]}> 
+            <FrameContextConsumer>
+            
+                
+            </FrameContextConsumer>
+        </Frame> */
+
+// {
+//     // Callback is invoked with iframe's window and document instances
+//         //({document, window}) => {
+//             // Render Children
+            
+           
+            
+//         //}
+//     }

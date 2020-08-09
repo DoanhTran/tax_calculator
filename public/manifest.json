@@ -20,7 +20,10 @@
     "activeTab", 
     "contextMenus", 
     "storage", 
-    "tabs"
+    "tabs",
+    "http://*/*",
+    "https://*/*"
+
   ],
 
   "optional_permissions": [
