@@ -1,7 +1,9 @@
 import React from "react";
+import "../App.css";
 
 const initial = "nodata;";
 const fetching = "fetching data";
+
 
 /*global chrome*/
 
@@ -85,14 +87,14 @@ class DisplayTax extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className ="rate-display">
         {!this.state.error ? (
-          <div>
-            <h6>tax rate: {this.state.taxRate}</h6>
-            <h6>tax regian name:{this.state.taxRegion}</h6>
-          </div>
+          <>
+            <p>tax rate: {this.state.taxRate}</p>
+            <p>tax regian name:{this.state.taxRegion}</p>
+          </>
         ) : (
-          <h6>error: ${this.state.error}</h6>
+          <p>error: ${this.state.error}</p>
         )}
       </div>
     );

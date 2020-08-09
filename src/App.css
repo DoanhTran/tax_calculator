@@ -2,10 +2,7 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -44,30 +41,80 @@
   display: grid;
   grid-gap: 10px 10px;
   grid-template-columns: 24px auto auto auto 24px;
-  grid-template-rows: 20px auto auto auto auto 20px;
+  grid-template-rows: 6px auto 7px auto auto auto auto 10px;
   background-color: F3F3F3;
 }
 
 .web-enable-container{
   grid-column: 2/5;
   grid-row: 2;
-  height: 20px;
-  width: 20px;
-  background-color: red;
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+
+ 
+    
+}
+
+.ziplabel{
+  grid-column-start: 2;
+  grid-row-start: 4;
+  
+}
+
+.searchUnder{
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.25);
+  margin-bottom: 4px;
+
+}
+
+.report-form-main{
+  display: flex;
+  grid-row-start: 7;
+  grid-column: 2/5;
+}
+
+#report-button{
+  border: none;
+  color: red;
+  text-emphasis-style: underline;
+
+}
+
+
+
+
+
+.fill-space{
+  flex-grow: 1;
 }
 
 .multisearch-container{
   display:flex;
   flex-direction: column;
   grid-column: 2/5;
-  grid-row-start: 3;
+  grid-row-start: 5;
   border-radius: 10px;
   background-color: #FFFFFF;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
+.divider{
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.25);
+  grid-column: 2/5;
+  grid-row-start: 3;
+  margin-top: 3px;
+
+}
+
 .multisearch-container.green-outline{
   border: 2px solid #039D66;
+}
+
+.search-option-container.container-hidden{
+  display: none;
 }
 
 
@@ -78,12 +125,16 @@
 .searchBar-container{
   display:flex;
   background-color: transparent;
+  margin-right: 10px;
+  
+  height: 45px;
 
 }
 
 .zip-input{
   flex-grow: 1;
   border: none;
+  height: 100%;
   background-color: transparent;
   border-radius: 10px;
 
@@ -96,8 +147,10 @@
 }
 
 .glass-icon{
-  height: 40px;
-  width: 40px;
+  height: 35px;
+  width: 35px;
+  align-self: center;
+  background-size: contain;
   background-color: transparent;
   border: none;
   justify-self: end;
@@ -142,3 +195,53 @@
   background-color: #E0E0E0;
   outline: none;
 }
+
+.rate-display{
+  grid-column: 2/5;
+  grid-row-start: 6;
+  display: flex;
+  flex-direction: column;
+  
+
+}
+
+.report-form-container{
+  grid-column: 1/6;
+  grid-row: 1/9;
+  z-index: 1000;
+  background-color: whitesmoke;
+  padding: 24px;
+}
+
+.edit-window{
+  grid-column: 1/6;
+  grid-row: 1/9;
+  
+  z-index: 1000;
+  background-color: whitesmoke;
+  padding: 24px;
+}
+
+.report{
+  
+  display: flex;
+  flex-direction: column;
+}
+
+.process{
+  width: 200;
+  height: 200;
+  align-self: center;
+  justify-self: center;
+  background-color: whitesmoke;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  z-index: 1005;
+}
+
+.process.process-invisible{
+  display: none;
+
+}
+
+
+
