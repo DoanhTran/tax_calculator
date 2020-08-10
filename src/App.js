@@ -58,13 +58,11 @@ function App() {
   },[taxRate]);
 
 
+
   useEffect(() => {
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: url, urlList: urlList}, function(response) {
-        console.log('sending message')
-        console.log('this is url: ', urlList) 
-      })      
-    })    //  chrome.runtime.sendMessage({type: url, urlList: urlList}, () => {     //   console.log('sending message')     //  })   //   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {   //     chrome.tabs.sendMessage(tabs[0].id, {type: url, urlList: urlList}, function(response) {   //     });   // });     
+    chrome.runtime.sendMessage({type: url, urlList: urlList}, function(response){
+      console.log("sending url list");
+    });
   }, [urlList])
 
 

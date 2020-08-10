@@ -1,11 +1,16 @@
+
  /*global chrome*/
 import React, {useEffect, useState, useRef} from 'react'; 
 import ReactDOM, { findDOMNode } from 'react-dom';
-import "./content.css";
-import Frame, { FrameContextConsumer }from 'react-frame-component';
+//import "./content.css";
+//import Frame, { FrameContextConsumer }from 'react-frame-component';
 
 var PRICE = 'price';
 var COORDS = 'coords';
+
+
+console.log("running content.js")
+
 
 function Tax() {
 
@@ -22,6 +27,7 @@ function Tax() {
     const [currUrl, setCurrUrl] = useState(null);
 
 
+    
     chrome.storage.sync.get('currentTax', function(result) {
         if (result.currentTax!==undefined){
             setTax(parseFloat(result.currentTax.rate)+1);
@@ -61,34 +67,7 @@ function Tax() {
 
 
     
-    // document.addEventListener('mousemove', updateDOM);
-
-    // function updateDOM(event){
-    //     console.log("current position", event.pageY);
-    //     console.log("window size: ", windowSize.current);
-    //     if(event.pageY > windowSize.current){
-            
-    //         getDOM(tax);
-    //         windowSize.current = windowSize.current + window.innerHeight;
-    //     }
-    // }
-
-    // useEffect(()=>{
-    //     var e = document.event;
-    //     if(e.pageY > windowSize.current){
-    //         getDOM(tax);
-    //         windowSize.current = windowSize.current + document.clientHeight;
-    //     }
-    // })
-
-    // document.addEventListener('click', saveMousePos);
-
-    // function saveMousePos(event) {
-    //     setX(event.clientX)
-    //     setY(event.clientY)
-    //     console.log(event.clientX)
-    //     console.log(event.clientY)
-    // }
+ 
 
     function getDOM(tax){
         //var list = []
@@ -190,21 +169,9 @@ function Tax() {
     
 
     return (
-        <Frame head={[<link type="text/css" rel="stylesheet" href={chrome.runtime.getURL("/static/css/content.css")} ></link>]}> 
-            <FrameContextConsumer>
-                {
-                    ({document, window}) => {
-                        return(
-                            <div className='my-extension'>
-                                <h1>{price}</h1>
-                            </div>
-                        )
-                    }
-                }
-            
-                
-            </FrameContextConsumer>
-        </Frame>
+        <div>
+            <h1>{price}</h1>
+        </div>
 
         
         
@@ -230,19 +197,48 @@ function saveMousePos(event) {
 }
 
 
-/* <Frame head={[<link type="text/css" rel="stylesheet" href={chrome.runtime.getURL("/static/css/content.css")} ></link>]}> 
-            <FrameContextConsumer>
+   // document.addEventListener('mousemove', updateDOM);
+
+    // function updateDOM(event){
+    //     console.log("current position", event.pageY);
+    //     console.log("window size: ", windowSize.current);
+    //     if(event.pageY > windowSize.current){
+            
+    //         getDOM(tax);
+    //         windowSize.current = windowSize.current + window.innerHeight;
+    //     }
+    // }
+
+    // useEffect(()=>{
+    //     var e = document.event;
+    //     if(e.pageY > windowSize.current){
+    //         getDOM(tax);
+    //         windowSize.current = windowSize.current + document.clientHeight;
+    //     }
+    // })
+
+    // document.addEventListener('click', saveMousePos);
+
+    // function saveMousePos(event) {
+    //     setX(event.clientX)
+    //     setY(event.clientY)
+    //     console.log(event.clientX)
+    //     console.log(event.clientY)
+    // }
+
+
+// {/* <Frame head={[<link type="text/css" rel="stylesheet" href={chrome.runtime.getURL("/static/css/content.css")} ></link>]}> 
+//             <FrameContextConsumer>
+//                 {
+//                     ({document, window}) => {
+//                         return(
+//                             <div className='my-extension'>
+//                                 <h1>{price}</h1>
+//                             </div>
+//                         )
+//                     }
+//                 }
             
                 
-            </FrameContextConsumer>
-        </Frame> */
-
-// {
-//     // Callback is invoked with iframe's window and document instances
-//         //({document, window}) => {
-//             // Render Children
-            
-           
-            
-//         //}
-//     }
+//             </FrameContextConsumer>
+//        </Frame> */}
