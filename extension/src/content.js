@@ -2,14 +2,14 @@
  /*global chrome*/
 import React, {useEffect, useState, useRef} from 'react'; 
 import ReactDOM, { findDOMNode } from 'react-dom';
-//import "./content.css";
-//import Frame, { FrameContextConsumer }from 'react-frame-component';
+import "./content.css";
+import Frame, { FrameContextConsumer }from 'react-frame-component';
 
 var PRICE = 'price';
 var COORDS = 'coords';
 
 
-console.log("running content.js")
+
 
 
 function Tax() {
@@ -27,10 +27,12 @@ function Tax() {
     const [currUrl, setCurrUrl] = useState(null);
 
 
+    console.log("running content.js")
     
     chrome.storage.sync.get('currentTax', function(result) {
         if (result.currentTax!==undefined){
             setTax(parseFloat(result.currentTax.rate)+1);
+            console.log("current tax", parseFloat(result.currentTax.rate)+1);
             getDOM(parseFloat(result.currentTax.rate)+1);
         }
     })
@@ -169,9 +171,21 @@ function Tax() {
     
 
     return (
-        <div>
-            <h1>{price}</h1>
-        </div>
+        <Frame head={[<link type="text/css" rel="stylesheet" href={chrome.runtime.getURL("/static/css/content.css")} ></link>]}> 
+            <FrameContextConsumer>
+                {
+                    ({document, window}) => {
+                        return(
+                            <div className='my-extension'>
+                                <h1>{price}</h1>
+                            </div>
+                        )
+                    }
+                }
+            
+                
+            </FrameContextConsumer>
+       </Frame>
 
         
         

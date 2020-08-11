@@ -31,6 +31,8 @@
     "scripts": ["background.js"]
   },
 
+ 
+
   "web_accessible_resources":[
     "/static/css/content.css", 
     "/static/js/content.js"

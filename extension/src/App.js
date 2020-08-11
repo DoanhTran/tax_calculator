@@ -16,11 +16,14 @@ function App() {
   const url = 'URL'
 
   const handleToggle = () => {
+    
     setTrackSite(!trackSite)
+    console.log("tracksite", trackSite);
   }
 
 
   useEffect(() => {
+  console.log("running use effect");
   chrome.tabs.query({active: true, currentWindow: true}, tabs => {
     const url = new URL(tabs[0].url);
     const domain = url.hostname;
@@ -48,6 +51,7 @@ function App() {
 
 
   useEffect(()=>{
+    console.log("tax rate has changed", taxRate);
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {type: PRICE, tax: taxRate}, function(response) {
       }); 
@@ -67,7 +71,7 @@ function App() {
       <div className="web-enable-container">
         <label>Use tax calculator on this site?</label>
         <div className="fill-space"></div>
-        <Toggle size="small" onChange={handleToggle}></Toggle>
+        <Toggle size="small" handleToggle={handleToggle} isChecked ={trackSite}></Toggle>
       </div>
       <div className="divider"></div>
       <NewInputBox updateTax = {(tax)=>setTaxRate(parseFloat(tax)+1)}/>
