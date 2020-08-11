@@ -4,9 +4,7 @@ import DisplayTax from "../displaytax.js";
 import ManageZip from "../manageZip";
 /*global chrome*/
 
-//I'm not sure if to use useRef or createRef
-// set save true trigger fetch data
-const fakeSavedList = {14850:{name:"home"}, 12345:{name:"scl"}}
+const fakeSavedList = {14850:{name:"home: "}, 12345:{name:"school: "}}
 
 
 export default function NewInputBox({updateTax}) {
@@ -73,9 +71,6 @@ export default function NewInputBox({updateTax}) {
   };
 
   const optionClick = (event) =>{
-    //change the textbox to match the saved data
-    console.log("option click")
-    
     setZipcode(event.currentTarget.attributes.getNamedItem('data-zip').value)
     //setZipcode(event.target.attrbutes['data-zip'])
     setSave(true)
@@ -87,21 +82,13 @@ export default function NewInputBox({updateTax}) {
   }
 
   useEffect(()=>{
-    console.log("setSavedEDit")
-    
     setSearchOption(searchOption=>{return make_htmlList()})
     
   },[savedZip])
 
   function make_htmlList(){
-    console.log(
-      "make html is called"
-    )
-    //console.log(savedZip)
     let html= [<div className="searchUnder"></div>];
-    console.log("savedZip")
-    console.log(savedZip)
-
+ 
     Object.keys(savedZip).forEach(index=> {
       
       const savedButt = <button className="savedOptions" key={index} data-zip={index} onClick={optionClick} ><span>{savedZip[index].name}</span><span>{index}</span></button>
@@ -109,7 +96,7 @@ export default function NewInputBox({updateTax}) {
       
       
     });
-    html.push(<button key={"editsavedbutt"} onClick={editZipClick}>Add/edit saved zip</button>)
+    html.push(<button key={"editsavedbutt"} onClick={editZipClick}>Edit Your Zipcodes</button>)
     console.log(html)
  
     return html
