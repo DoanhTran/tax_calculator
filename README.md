@@ -1,6 +1,6 @@
 # Interactive Tax Calculator
+<p align = 'center'>  Extension that displays the post-tax prices of products on e-commerce sites, implemented with React and HTML/CSS, with SQlite database for storing regional tax rate information </p>
 <p align='center'>
-  Extension that displays the post-tax prices of products on e-commerce sites, implemented with React and HTML/CSS, with SQlite database for storing regional tax rate information
 <img src="./readme_assets/tax_calc_functionality.gif" height='300'/>
 </p>
 
