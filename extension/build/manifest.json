@@ -1,0 +1,38 @@
+{
+  "manifest_version": 2,
+  "name": "Sales Tax Caculator",
+  "description": "Add tax to price when hovered",
+  "version": "0.0.1",
+
+  "browser_action": {
+    "default_popup": "index.html"
+  },
+
+  "icons": {
+    "16": "doge-small.png",
+    "48": "doge-small.png",
+    "128": "doge-small.png"
+  },
+
+  "content_security_policy": "script-src 'self' 'sha256-g/jBduJ8gtcSStaMlu0E6CHf3HQ+OTXD1CntHjgL7gg='; object-src 'self'",
+
+  "permissions": [
+    "storage",
+    "activeTab",
+    "contextMenus",
+    "storage",
+    "tabs", 
+    "http://*/*", 
+    "https://*/*" 
+
+  ],
+
+  "background": {
+    "scripts": ["background.js"]
+  },
+
+  "web_accessible_resources":[
+    "/static/css/content.css", 
+    "/static/js/content.js"
+ ]
+}
