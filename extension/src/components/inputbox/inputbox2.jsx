@@ -6,7 +6,7 @@ import ManageZip from "../manageZip";
 
 //I'm not sure if to use useRef or createRef
 // set save true trigger fetch data
-const fakeSavedList = {14850:{name:"home"}, 12345:{name:"scl"}}
+const fakeSavedList = {0:{name:"home", zip:12345}, 1:{name:"scl", zip:14850}}
 
 
 export default function NewInputBox() {
@@ -17,23 +17,20 @@ export default function NewInputBox() {
   const [zipcode, setZipcode] = useState("");
   const [save, setSave] = useState(false);
   const [savedZip, setSavedZip] =useState({})
-  const [searchOption, setSearchOption]= useState([])
+//  const [searchOption, setSearchOption]= useState([])
   const [editWindow, displayEditWindow]= useState(false)
   useEffect(() => {
     setSavedZip(fakeSavedList)
     inputBoxRef.current.focus()
     
     
-//     chrome.storage.sync.get('currentTax', function(result) {
-//       console.log("get dat is called");
-//         console.log('Value currently is ' + result.currentTax);
-//         console.log(result)
-//         console.log(result.currentTax)
-//         if (result.currentTax!==undefined){
-//           setZipcode(result.currentTax.zip);
-//           setSave(null);
-//         }
-//       });
+    
+
+      return ()=>{
+        chrome.storage.sync.set({savedZip:savedZip}, function(){})
+
+      }
+
    },[]);
 
   
@@ -72,11 +69,21 @@ export default function NewInputBox() {
     setSave(true);
   };
 
-  const optionClick = (event) =>{
-    //change the textbox to match the saved data
-    console.log("option click")
+  const closeEditZip = (changedZip) =>{
+    if(changedZip){setSavedZip(changedZip)}
     
-    setZipcode(event.currentTarget.attributes.getNamedItem('data-zip').value)
+    console.log(changedZip)
+
+    displayEditWindow(false)
+  }
+
+
+  const optionClick = (zip) =>{
+    //change the textbox to match the saved data
+    //console.log("option click")
+    console.log("option click", zip)
+    
+    setZipcode(zip)
     //setZipcode(event.target.attrbutes['data-zip'])
     setSave(true)
     
@@ -86,34 +93,34 @@ export default function NewInputBox() {
     displayEditWindow(true)
   }
 
-  useEffect(()=>{
-    console.log("setSavedEDit")
+  // useEffect(()=>{
+  //   console.log("setSavedEDit")
     
-    setSearchOption(searchOption=>{return make_htmlList()})
+  //   setSearchOption(searchOption=>{return make_htmlList()})
     
-  },[savedZip])
+  // },[savedZip])
 
-  function make_htmlList(){
-    console.log(
-      "make html is called"
-    )
-    //console.log(savedZip)
-    let html= [<div className="searchUnder"></div>];
-    console.log("savedZip")
-    console.log(savedZip)
+  // function make_htmlList(){
+  //   console.log(
+  //     "make html is called"
+  //   )
+  //   //console.log(savedZip)
+  //   let html= [<div className="searchUnder"></div>];
+  //   //console.log("savedZip")
+  //   //console.log(savedZip)
 
-    Object.keys(savedZip).forEach(index=> {
+  //   Object.keys(savedZip).forEach(index=> {
       
-      const savedButt = <button className="savedOptions" key={index} data-zip={index} onClick={optionClick} ><span>{savedZip[index].name}</span><span>{index}</span></button>
-      html.push(savedButt);
+  //     const savedButt = <button className="savedOptions" key={index} data-zip={savedZip[index].zip} onClick={optionClick} ><span>{savedZip[index].name}</span><span>{savedZip[index].zip}</span></button>
+  //     html.push(savedButt);
       
       
-    });
-    html.push(<button key={"editsavedbutt"} onClick={editZipClick}>Add/edit saved zip</button>)
-    console.log(html)
+  //   });
+  //   html.push(<button key={"editsavedbutt"} onClick={editZipClick}>Add/edit saved zip</button>)
+  //   //console.log(html)
  
-    return html
-  }
+  //   return html
+  // }
 
   const focusInput = (event) => {
     inputBoxRef.current.focus()
@@ -125,7 +132,7 @@ export default function NewInputBox() {
     setSave(false);
     event.currentTarget.addEventListener("keyup", function(event) {
          if (event.currentTarget.value!=='' && event.keyCode === 13){
-           console.log(zipcode)
+           //console.log(zipcode)
            setSave(true)
            inputBoxRef.current.blur()
          }})
@@ -166,11 +173,11 @@ export default function NewInputBox() {
   function maxFive(text) {
     if (text.length > 5) {
       setAnimation("shake");
-      console.log("text is longer than 5 characters")
-      console.log("animation 1:", animation);
+      // console.log("text is longer than 5 characters")
+      // console.log("animation 1:", animation);
       setTimeout(function () {
         setAnimation();
-        console.log("animation 2:", animation);
+        //fconsole.log("animation 2:", animation);
       }, 200);
       return text.slice(0, 5);
     }
@@ -203,7 +210,7 @@ export default function NewInputBox() {
                 
                 {save|| save===null ? <button className="glass-icon glass-grey" onClick={focusInput}></button> : <button className="glass-icon glass-green"onClick={handleSubmit}></button>}
                 </div>
-                {save|| save===null ? '':<div  className="search-option-container">{searchOption}</div>}
+                {save|| save===null ? '':<div  className="search-option-container">{<OptionList savedZip={savedZip} optionClick={optionClick} editZipClick={editZipClick}></OptionList>}</div>}
 
                 </div>
     
@@ -214,7 +221,22 @@ export default function NewInputBox() {
       {/* {save|| save===null ? "" : <button onClick={handleSubmit}>Submit</button>} */}
       {/* </form> */}
       <DisplayTax save={save} zipcode={zipcode}></DisplayTax>
-      <ManageZip editZipClick={editWindow} savedZip={savedZip}></ManageZip>
+      <ManageZip editZipClick={editWindow} closeEdit={closeEditZip} savedZip={savedZip}></ManageZip>
+    </>
+  )
+}
+
+
+function OptionList(props){
+  return(
+    <>
+    <div className="searchUnder"></div>
+    {Object.keys(props.savedZip).map(key => {
+      return <button className="savedOptions" key={key} data-zip={props.savedZip[key].zip} onClick={()=>{props.optionClick(props.savedZip[key].zip)}} ><span>{props.savedZip[key].name}</span><span>{props.savedZip[key].zip}</span></button>
+
+    })}
+    <button key={"editsavedbutt"} onClick={()=>props.editZipClick()}>Add/edit saved zip</button>
+
     </>
   )
 }

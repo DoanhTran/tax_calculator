@@ -13,8 +13,8 @@ class DisplayTax extends React.Component {
     this.state = {
       error: null,
       isLoaded: false,
-      taxRate: initial,
-      taxRegion: initial,
+      taxRate: props.taxRate?props.taxRate:initial,
+      taxRegion: props.taxRegion?props.taxRegion:initial,
     };
     console.log("display");
    
@@ -53,9 +53,9 @@ class DisplayTax extends React.Component {
               console.log("not valid zipcode.")
             }
             else{
-              // chrome.storage.sync.set({currentTax: {rate:result.data.EstimatedCombinedRate, tReg:result.data.TaxRegionName, zip:zip} }, function() {
-              //   console.log("tax rate is saved.")
-              // });
+              chrome.storage.sync.set({currentTax: {rate:result.data.EstimatedCombinedRate, tReg:result.data.TaxRegionName, zip:zip} }, function() {
+                console.log("tax rate is saved.")
+              });
               
             }
             this.setState({
