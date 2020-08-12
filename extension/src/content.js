@@ -64,7 +64,7 @@ function Tax() {
         }
         timer = setTimeout( function(){
             getDOM(tax);
-        }, 200);
+        }, 300);
     }
 
 
@@ -72,20 +72,29 @@ function Tax() {
  
 
     function getDOM(tax){
-        //var list = []
 
+
+
+        /* Find the text node that has a dollar sign and triggers the price with tax sign when 
+        user hovers over the price tag.
+        Parameter: a node from the website.
+        Precondition: node is an html node.  */
         function findDollarSign(node){
             if (node.nodeType === 3){
                 const dollarIndex = node.nodeValue.indexOf('$')
                 if(dollarIndex !== -1 ) {
-                
                     //list.append(node);
                     const parentEl = node.parentElement
                     const classname = parentEl.className;
 
-                    const price = findPrice(node.nodeValue.slice(dollarIndex+1), tax)
+                    let price = findPrice(node.nodeValue.slice(dollarIndex+1), tax)
+                    
+                    if (price === null){
+                        console.log("starting findWhole");
+                        findWhole(node.parentNode.nextSibling);
+                    }
+                    
 
-                    const original = node.nodeValue;
                     parentEl.addEventListener('mouseenter', event => {
                         if (price !== null){
                             setPrice('$' + price);
@@ -93,12 +102,14 @@ function Tax() {
                             app.style.display = "block";
                         }
                     })
+
+
                     parentEl.addEventListener('mouseleave', event =>{
                         //pricetag.current.style.display = "none";
                         app.style.display = "none";
                         setPrice();
                     })
-                    list.push(classname);
+                    //list.push(classname);
                     // console.log(list);
                     // console.log('$ node');
                     // console.log ("classname: ", classname);
@@ -113,6 +124,64 @@ function Tax() {
             }
         }
        
+        
+
+        /*Find whole number when price is separated into two nodes.
+        Parameter: node is the sibling of the parent of dollar text node.
+        Precondition: node is a document node.*/
+        function findWhole(node){
+            if(node === null){
+                return null;
+            }
+
+            let answer = null;
+            if (node.hasChildNodes()){
+                let children = node.childNodes;  
+                
+                for (let i = 0; i < children.length; i++){
+                    console.log("entering the loop")
+                    if (children[i].nodeType === 3 && !isNaN(parseInt(children[i].nodeValue))) {
+                        console.log("node value", children[i].nodeValue);
+                        return (children[i], children[i].nodeValue);
+                    }
+                    console.log("not a number text node")
+                    //answer = findWhole(children[i]);
+                    if (answer !== null){
+                        return answer
+                    }
+                }
+            }
+
+            console.log("answer", answer)
+            if(answer === null){
+            // if (node.nextSibling !== null){
+                console.log("find whole in next sibling");
+                return findWhole(node.nextSibling);
+            }
+
+            //}
+            // else {
+            //     console.log("find whole in parent element");
+            //     findWhole(node.parentElement);
+            // }
+        }
+
+
+
+        /*Find decimal number when price is separated into two nodes.
+        Parameter: node is the parent of the whole number text node.
+        Precondition: node is a document node.*/
+        function findDecimal(node){
+            if (node.nodeType === 3 && node.firstChild.nodeValue.isInteger()) return (node, node.nodeValue);
+
+            if (node.nextSibling !== null){
+                findWhole(node.nextsibling);
+            }
+            else {
+                findWhole(node.parentElement);
+            }
+        }
+
 
         /* Find value after the dollar sign and multiply by tax. Returns null if there is no price 
         after the dollar sign.
@@ -135,9 +204,8 @@ function Tax() {
             let value = (parseFloat(price) * tax);
             //console.log("price:", value);
 
-            if(isNaN(price)) return null;
+            if(isNaN(value)) return null;
 
-            
 
             const whole = Math.floor(value).toString();
             //console.log("whole:", whole);
@@ -149,6 +217,10 @@ function Tax() {
         }
 
 
+
+        /*Place comma in the price every 3 digits.
+        Parameter: price is a string of numbers.
+        Condition: price is a string. */
         function commatize(price){
             if(price.length<4){
                 return price;
@@ -165,8 +237,6 @@ function Tax() {
         findDollarSign(document);
         return list;
     }
-
-    
 
     
 
