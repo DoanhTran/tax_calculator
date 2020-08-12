@@ -9,32 +9,32 @@
   },
 
   "icons": {
-    "16": "doge-small.png",
-    "48": "doge-small.png",
-    "128": "doge-small.png"
+    "16": "cutting_tax16.png",
+    "48": "cutting_tax32.png",
+    "128": "cutting_tax32.png"
   },
 
   "content_security_policy": "script-src 'self' 'sha256-g/jBduJ8gtcSStaMlu0E6CHf3HQ+OTXD1CntHjgL7gg='; object-src 'self'",
 
   "permissions": [
-    "activeTab", 
-    "contextMenus", 
-    "storage"
+    "storage",
+    "activeTab",
+    "contextMenus",
+    "storage",
+    "tabs",
+    "http://*/*",
+    "https://*/*"
+
   ],
 
   "background": {
     "scripts": ["background.js"]
   },
-  
-  "content_scripts" : [
-    {
-      "matches": [ "<all_urls>" ],
-      "css": ["/static/css/app.css"],
-      "js": ["/static/js/0.chunk.js","/static/js/content.js"]
-    }
-  ], 
+
+
 
   "web_accessible_resources":[
-    "/static/css/content.css"
+    "/static/css/content.css",
+    "/static/js/content.js"
  ]
 }

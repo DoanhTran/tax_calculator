@@ -1,15 +1,9 @@
 /*global chrome*/
 
 
-var urlRegex = /^file:\/\/\/:?/;
-
-var priceInfo = 5.0;
-var PRICE = 'price';
-var COORDS = 'coords';
-
-function doStuffWithDOM(element) {
-    alert("I received the following DOM content:\n" + element);
-}
+var url = 'URL';
+var currUrl = null;
+var urlList = {};
 
 chrome.contextMenus.create({ 
     id: 'Tax Calculator',
@@ -17,61 +11,56 @@ chrome.contextMenus.create({
     contexts: ['all']
   });
 
-   
-   /* When the browser-action button is clicked... */
-//    chrome.browserAction.onClicked.addListener(function(tab) {
-//        /*...check the URL of the active tab against our pattern and... */
-//        if (urlRegex.test(tab.url)) {
-//            /* ...if it matches, send a message specifying a callback too */
-//            chrome.tabs.sendMessage(tab.id, { text: "report_back" },
-//                                    doStuffWithDOM);
-//        }
-//    });
 
-//    function sendPriceToReact(tab) {
+chrome.tabs.onActivated.addListener(function(activeInfo){
+    chrome.tabs.get(activeInfo.tabId, function(tab){
+        var url = new URL(tab.url)
+        currUrl = url.hostname;
+        if (tab.url.hostname in urlList){
+            chrome.tabs.insertCSS({file: './static/css/app.css'}, function(tab){
+                chrome.tabs.executeScript({file: './static/js/0.chunk.js'}, function(tab){
+                    chrome.tabs.executeScript({file:'./static/js/content.js'});   
+                })
+            }
+        )}
+    }) 
+})
 
-//    }
-chrome.browserAction.onClicked.addListener(
-    function(tab) {
-        console.log('dispatching some info');
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-            chrome.tabs.sendMessage(tabs[0].id, {type: PRICE, price: priceInfo}, function(response) {
-                console.log("save response", response.save);
-            }); 
-        });   
+
+
+chrome.tabs.onUpdated.addListener((tabId, change, tab) => {    
+    if (tab.active && change.url) {   
+        var url = new URL(change.url)
+        currUrl = url.hostname; 
+        // console.log("current url on updated:", url.hostname);
+        if (change.url.hostname in urlList){
+            // console.log("tab url is in url list on updated")
+            chrome.tabs.insertCSS({file: './static/css/app.css'}, function(tab){
+                chrome.tabs.executeScript({file: './static/js/0.chunk.js'}, function(tab){
+                    chrome.tabs.executeScript({file:'./static/js/content.js'});   
+                })
+        })        
     }
+
+}});
+
+
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        if (request.type === 'URL' ) {
+            urlList = request.urlList;
+            if (currUrl in urlList){
+                chrome.tabs.insertCSS({file: './static/css/app.css'}, function(tab){
+                    chrome.tabs.executeScript({file: './static/js/0.chunk.js'}, function(tab){
+                        chrome.tabs.executeScript({file:'./static/js/content.js'});   
+                    })
+                })
+            }
+            return true;
+        }
+    }
+
 )
 
 
-chrome.contextMenus.onClicked.addListener(
-    function(tab) {
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-            chrome.tabs.sendMessage(tabs[0].id, {type: PRICE, price: priceInfo}, function(response) {
-            });
-        }); 
-    }
-);
-
-// chrome.extension.onMessage.addListener(
-//     function(request, sender, sendResponse) {
-//         priceInfo = request.tax;
-//         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-//             chrome.tabs.sendMessage(tabs[0].id, {type: PRICE, price: priceInfo}, function(response) {
-//                 console.log("save response", response.save);
-//             }); 
-//         });
-//     } 
-// );
-// document.addEventListener('click', printMousePos);
-
-// function printMousePos(event) {
-//     console.log('clicked!')
-// }
-
-// function sendMousePos(event) {
-//     chrome.tabs.query({active: true, currentindow: true}, function(tabs) {
-//         chrome.tabs.sendMessage(tabs[0].id, {type: COORDS, x: event.clientX , y: eventClientY}, function(response) {
-//         })
-//     })
-
-// }
+// var fullpath = chrome.extension.getURL("./static/js/content.js")

@@ -14,7 +14,6 @@ class ReportForm extends React.Component {
     this.reportIssue = this.reportIssue.bind(this);
     this.cancelClick = this.cancelClick.bind(this);
     this.process = React.createRef()
-    // this.formToJSON = this.formToJSON.bind(this);
 
     this.form = (
       <>
@@ -28,10 +27,10 @@ class ReportForm extends React.Component {
         <label htmlFor="title">topic</label>
         <input name="title" type="text"></input>
         <label htmlFor="email">
-          email(optional in case you want to hear back from us)
+          email (optional!)
         </label>
         <input name="email" type="text"></input>
-        <label htmlFor="message">Please provide detail</label>
+        <label htmlFor="message">Please provide å with some details regarding the issue</label>
         <input name="message"></input>
         <button type="submit">Submit</button>
       </form>
@@ -40,8 +39,8 @@ class ReportForm extends React.Component {
     );
 
    
-    this.button = <div className="report-form-main"><div className="informationIcon"></div><div className="report-text"><p>This information if from ......... if it is incorrect
-    or you have experience any issue please<button id="report-button" onClick={this.reportIssue}>Report</button>.</p></div></div>;
+    this.button = <div className="report-form-main"><div className="informationIcon"></div><div className="report-text"><p>If information is incorrect
+    or there are any issues with your experience please<button id="report-button" onClick={this.reportIssue}>Report</button></p></div></div>;
     this.state = { process: OPEN };
   }
 
@@ -72,10 +71,10 @@ class ReportForm extends React.Component {
         (result) => {
           console.log("inresult");
           if (result.error) {
-            window.alert("sorry something is wrong");
+            window.alert("Sorry, something is wrong!");
             console.log(result.error);
           } else if (result.data) {
-            window.alert("Submitted, thank you for your feedback");
+            window.alert("Submitted, thank you for your feedback!");
             console.log(result.data);
           }
         },

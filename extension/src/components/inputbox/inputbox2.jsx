@@ -4,12 +4,11 @@ import DisplayTax from "../displaytax.js";
 import ManageZip from "../manageZip";
 /*global chrome*/
 
-//I'm not sure if to use useRef or createRef
-// set save true trigger fetch data
+
 const fakeSavedList = {0:{name:"home", zip:12345}, 1:{name:"scl", zip:14850}}
 
 
-export default function NewInputBox() {
+export default function NewInputBox({updateTax}) {
 
   const inputBoxRef = React.createRef()
   const searchContainerRef = React.createRef()
@@ -71,9 +70,6 @@ export default function NewInputBox() {
 
   const closeEditZip = (changedZip) =>{
     if(changedZip){setSavedZip(changedZip)}
-    
-    console.log(changedZip)
-
     displayEditWindow(false)
   }
 
@@ -81,7 +77,7 @@ export default function NewInputBox() {
   const optionClick = (zip) =>{
     //change the textbox to match the saved data
     //console.log("option click")
-    console.log("option click", zip)
+  
     
     setZipcode(zip)
     //setZipcode(event.target.attrbutes['data-zip'])
@@ -92,35 +88,6 @@ export default function NewInputBox() {
   const editZipClick = (event) => {
     displayEditWindow(true)
   }
-
-  // useEffect(()=>{
-  //   console.log("setSavedEDit")
-    
-  //   setSearchOption(searchOption=>{return make_htmlList()})
-    
-  // },[savedZip])
-
-  // function make_htmlList(){
-  //   console.log(
-  //     "make html is called"
-  //   )
-  //   //console.log(savedZip)
-  //   let html= [<div className="searchUnder"></div>];
-  //   //console.log("savedZip")
-  //   //console.log(savedZip)
-
-  //   Object.keys(savedZip).forEach(index=> {
-      
-  //     const savedButt = <button className="savedOptions" key={index} data-zip={savedZip[index].zip} onClick={optionClick} ><span>{savedZip[index].name}</span><span>{savedZip[index].zip}</span></button>
-  //     html.push(savedButt);
-      
-      
-  //   });
-  //   html.push(<button key={"editsavedbutt"} onClick={editZipClick}>Add/edit saved zip</button>)
-  //   //console.log(html)
- 
-  //   return html
-  // }
 
   const focusInput = (event) => {
     inputBoxRef.current.focus()
@@ -214,12 +181,7 @@ export default function NewInputBox() {
 
                 </div>
     
-      
-
-      {/* <button type="submit">Submit</button> */}
-
-      {/* {save|| save===null ? "" : <button onClick={handleSubmit}>Submit</button>} */}
-      {/* </form> */}
+  
       <DisplayTax save={save} zipcode={zipcode}></DisplayTax>
       <ManageZip editZipClick={editWindow} closeEdit={closeEditZip} savedZip={savedZip}></ManageZip>
     </>

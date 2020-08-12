@@ -1,1 +1,0 @@
-{"version":3,"sources":["content.css"],"names":[],"mappings":"AACA,cACI,YACH,CACA,iBACI,UAAW,CACX,gBACJ","file":"content.css","sourcesContent":["/* src/content.css */\n.my-extension {\n    padding: 20px;\n }\n .my-extension h1 {\n     color: #000;\n     font-size: 12vmin;\n }"]}

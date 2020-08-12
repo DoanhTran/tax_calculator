@@ -1,7 +1,7 @@
 import React from "react";
 import "../App.css";
 
-const initial = "nodata;";
+const initial = "no data;";
 const fetching = "fetching data";
 
 
@@ -67,7 +67,8 @@ class DisplayTax extends React.Component {
               taxRegion: result.error
                 ? result.error
                 : result.data.TaxRegionName,
-            });
+            }); 
+            this.props.updateTax(result.data.EstimatedCombinedRate)
           },
           (error) => {
             console.log("inerror");
@@ -91,7 +92,7 @@ class DisplayTax extends React.Component {
         {!this.state.error ? (
           <>
             <p>tax rate: {this.state.taxRate}</p>
-            <p>tax regian name:{this.state.taxRegion}</p>
+            <p>tax region: {this.state.taxRegion}</p>
           </>
         ) : (
           <p>error: ${this.state.error}</p>
