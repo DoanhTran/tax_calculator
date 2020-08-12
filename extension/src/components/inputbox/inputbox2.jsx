@@ -18,17 +18,42 @@ export default function NewInputBox({updateTax}) {
   const [savedZip, setSavedZip] =useState({})
 //  const [searchOption, setSearchOption]= useState([])
   const [editWindow, displayEditWindow]= useState(false)
+  const [inRate,setInitialRate] = useState('');
+  const [inRegion, setInitialReg] = useState('')
   useEffect(() => {
-    setSavedZip(fakeSavedList)
-    inputBoxRef.current.focus()
+    
+    
+      chrome.storage.sync.get(['currentTax', 'savedZip'], function(result) {
+      console.log("get dat is called");
+        console.log('Value currently is ', result.currentTax);
+        console.log(result)
+        console.log(result.currentTax)
+        if (result.currentTax!==undefined){
+          setZipcode(result.currentTax.zip);
+          console.log("taxRate", result.currentTax.rate)
+          setInitialRate(result.currentTax.rate)
+          setInitialReg(result.currentTax.tReg)
+          setSave(null);
+        }else inputBoxRef.current.focus()
+
+        if (result.savedZip!==undefined){
+          console.log("on mount saved zip is define",result.savedZip )
+          setSavedZip(result.savedZip)
+
+        }
+      });
     
     
     
 
-      return ()=>{
-        chrome.storage.sync.set({savedZip:savedZip}, function(){})
+      // return ()=>{
+      //   console.log("return is called")
+      //   chrome.storage.sync.set({savedZip:savedZip}, function(){
 
-      }
+      //     window.alert("savedzip is save", savedZip)
+      //   })
+
+      // }
 
    },[]);
 
@@ -69,7 +94,10 @@ export default function NewInputBox({updateTax}) {
   };
 
   const closeEditZip = (changedZip) =>{
-    if(changedZip){setSavedZip(changedZip)}
+
+    if(changedZip){
+      chrome.storage.sync.set({savedZip:savedZip}, function(){})
+      setSavedZip(changedZip)}
     displayEditWindow(false)
   }
 
@@ -155,7 +183,7 @@ export default function NewInputBox({updateTax}) {
     
     
     <>
-
+    {console.log("inRate taxtRate in return", inRate)}
       <label className ="ziplabel">Zipcode: &#160;</label>
       <div className = "multisearch-container green-outline" ref={searchContainerRef}>
       
@@ -182,7 +210,7 @@ export default function NewInputBox({updateTax}) {
                 </div>
     
   
-      <DisplayTax save={save} zipcode={zipcode}></DisplayTax>
+      <DisplayTax save={save} zipcode={zipcode} updateTax={updateTax} taxRate={inRate} taxRegion={inRegion}></DisplayTax>
       <ManageZip editZipClick={editWindow} closeEdit={closeEditZip} savedZip={savedZip}></ManageZip>
     </>
   )
