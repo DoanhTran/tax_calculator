@@ -16,22 +16,9 @@ class DisplayTax extends React.Component {
       taxRate: initial,
       taxRegion: initial,
     };
-    console.log("display");
-   
   }
 
- 
 
-  //   chrome.storage.sync.get('currentTax', function(result) {
-  //     console.log("get dat is called in display");
-  //       console.log('Value currently is ' + result.currentTax);
-  //       console.log(result)
-  //       console.log(result.currentTax)
-  //       if (result.currentTax!==undefined){
-  //         this.setState({taxRate:result.currentTax.rate, taxRegion:result.currentTax.tReg});
-  //       }
-  //     }.bind(this));
-  // }
   componentWillUnmount(){
     window.alert("unmount")
   }
@@ -46,7 +33,6 @@ class DisplayTax extends React.Component {
     }
 
     if (this.props.save !== prevProps.save && this.props.save === true) {
-      console.log("saveindisplay");
       const zip = this.props.zipcode
       this.setState({ taxRate: fetching, taxRegion: fetching });
 
@@ -58,14 +44,8 @@ class DisplayTax extends React.Component {
         .then((res) => res.json())
         .then(
           (result) => {
-            console.log("inresult");
-            console.log(result);
-            if (result.error){
-              console.log("not valid zipcode.")
-            }
-            else{
+            if (!result.error) {
               chrome.storage.sync.set({currentTax: {rate:result.data.EstimatedCombinedRate, tReg:result.data.TaxRegionName, zip:zip} }, function() {
-                console.log("tax rate is saved.")
               });
               
             }
@@ -82,19 +62,10 @@ class DisplayTax extends React.Component {
             this.props.updateTax(result.data.EstimatedCombinedRate)
           },
           (error) => {
-            console.log("inerror");
-            console.log(error);
             this.setState({ error: true, isLoaded: true });
           }
         );
-      // } else if (
-      //   this.props.save !== prevProps.save &&
-      //   this.props.save === false
-      // ) {
-      //     this.setState({ taxRate: fetching, taxRegion: fetching })
-
-      // }
-    }
+      }
   }
 
   render() {

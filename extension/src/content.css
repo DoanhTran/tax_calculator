@@ -1,9 +1,12 @@
 /* src/content.css */
 .my-extension {
+    margin-top: 25px;
     place-self: center;
+    /* background-color: aqua; */
  }
  
 .my-extension h1 {
+    font-family: 'Oswald', sans-serif;
     color: #000000;
     font-size: 15vw;
     text-align: center;

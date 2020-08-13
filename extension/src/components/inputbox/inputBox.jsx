@@ -8,27 +8,11 @@ export default function InputBox() {
 
   const [zipcode, setZipcode] = useState("");
   const [save, setSave] = useState(false);
-  // useEffect(() => {
-  //   chrome.storage.sync.get('currentTax', function(result) {
-  //     console.log("get dat is called");
-  //       console.log('Value currently is ' + result.currentTax);
-  //       console.log(result)
-  //       console.log(result.currentTax)
-  //       if (result.currentTax!==undefined){
-  //         setZipcode(result.currentTax.zip);
-  //         setSave(null);
-  //       }
-  //     });
-   
-
-
-  // },[]);
   
 
   const [animation, setAnimation] = useState();
 
   const handleOnChange = (event) => {
-    console.log("animation", animation);
 
     const input = event.currentTarget.value;
     const returnInput = maxFive(input);

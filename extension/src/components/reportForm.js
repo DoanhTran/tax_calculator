@@ -49,7 +49,6 @@ class ReportForm extends React.Component {
   }
 
   handleSubmit(event) {
-    console.log("handle supmit is called");
     this.process.current.classList.remove('process-invisible')
 
     let data = {};
@@ -69,22 +68,16 @@ class ReportForm extends React.Component {
       .then((res) => res.json())
       .then(
         (result) => {
-          console.log("inresult");
           if (result.error) {
             window.alert("Sorry, something is wrong!");
-            console.log(result.error);
           } else if (result.data) {
             window.alert("Submitted, thank you for your feedback!");
-            console.log(result.data);
           }
         },
         (error) => {
-          console.log("inerror");
-          console.log(error);
           this.setState({ error: true, isLoaded: true });
         }
       )
-      // .then(this.setState({ process: OPEN }));
   }
 
   reportIssue(event) {
@@ -93,7 +86,6 @@ class ReportForm extends React.Component {
 
   render() {
     if (report) {
-      console.log(report);
     }
 
     if (this.state.process === OPEN) {
@@ -105,13 +97,3 @@ class ReportForm extends React.Component {
 }
 
 export default ReportForm;
-/*
-want json 
-{
-    title:"title",
-    email:"email",
-    message:"text"
-
-}
-
-*/

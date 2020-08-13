@@ -24,36 +24,18 @@ export default function NewInputBox({updateTax}) {
     
     
       chrome.storage.sync.get(['currentTax', 'savedZip'], function(result) {
-      console.log("get dat is called");
-        console.log('Value currently is ', result.currentTax);
-        console.log(result)
-        console.log(result.currentTax)
         if (result.currentTax!==undefined){
           setZipcode(result.currentTax.zip);
-          console.log("taxRate", result.currentTax.rate)
           setInitialRate(result.currentTax.rate)
           setInitialReg(result.currentTax.tReg)
           setSave(null);
         }else inputBoxRef.current.focus()
 
         if (result.savedZip!==undefined){
-          console.log("on mount saved zip is define",result.savedZip )
           setSavedZip(result.savedZip)
 
         }
       });
-    
-    
-    
-
-      // return ()=>{
-      //   console.log("return is called")
-      //   chrome.storage.sync.set({savedZip:savedZip}, function(){
-
-      //     window.alert("savedzip is save", savedZip)
-      //   })
-
-      // }
 
    },[]);
 
@@ -64,16 +46,10 @@ export default function NewInputBox({updateTax}) {
     if (save|| save===null){
       searchContainerRef.current.classList.replace('green-outline', 'no-outline')
       document.removeEventListener('click', function(){})
-      //searchOptionRef.current.classList.add('container-hidden')
       inputBoxRef.current.removeEventListener("keyup", function(){})
     }
     if (save===false){
       searchContainerRef.current.classList.replace('no-outline', 'green-outline')
-      //searchOptionRef.current.classList.remove('container-hidden')
-      // inputBoxRef.current.
-      //   }
-      // })
-      
     }
     
 
@@ -83,7 +59,6 @@ export default function NewInputBox({updateTax}) {
   const [animation, setAnimation] = useState();
 
   const handleOnChange = (event) => {
-    //console.log("animation", animation);
     const input = event.currentTarget.value;
     const returnInput = maxFive(input);
     setZipcode(onlyNum(returnInput));
@@ -103,12 +78,8 @@ export default function NewInputBox({updateTax}) {
 
 
   const optionClick = (zip) =>{
-    //change the textbox to match the saved data
-    //console.log("option click")
-  
     
     setZipcode(zip)
-    //setZipcode(event.target.attrbutes['data-zip'])
     setSave(true)
     
   }
@@ -127,7 +98,6 @@ export default function NewInputBox({updateTax}) {
     setSave(false);
     event.currentTarget.addEventListener("keyup", function(event) {
          if (event.currentTarget.value!=='' && event.keyCode === 13){
-           //console.log(zipcode)
            setSave(true)
            inputBoxRef.current.blur()
          }})
@@ -142,13 +112,6 @@ export default function NewInputBox({updateTax}) {
       });
  
   };
-
-
-  
-
-    //revert zip code back
-    
-  
 
   /* Extract only numbers out of input box and returns a string of text 
     containing at most 6 numbers
@@ -168,11 +131,8 @@ export default function NewInputBox({updateTax}) {
   function maxFive(text) {
     if (text.length > 5) {
       setAnimation("shake");
-      // console.log("text is longer than 5 characters")
-      // console.log("animation 1:", animation);
       setTimeout(function () {
         setAnimation();
-        //fconsole.log("animation 2:", animation);
       }, 200);
       return text.slice(0, 5);
     }
@@ -183,7 +143,6 @@ export default function NewInputBox({updateTax}) {
     
     
     <>
-    {console.log("inRate taxtRate in return", inRate)}
       <label className ="ziplabel">Zipcode: &#160;</label>
       <div className = "multisearch-container green-outline" ref={searchContainerRef}>
       
