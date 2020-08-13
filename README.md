@@ -1,7 +1,7 @@
 # Interactive Tax Calculator
 
 <p align='center'>
-<img src="./readme_assets/tax_calc_functionality.gif" height='500'/>
+<img src="./readme_assets/tax_calc_functionality.gif" height='400'/>
 </p>
 
 An interactive Google chrome extension that displays US post-tax prices when the user hovers mouse over price information on relevant webpages. Users may save the zip code information of multiple addresses for easy access, which is placed in local chrome.storage; tax rates for all US zip codes are stored on an SQlite database. 
@@ -9,7 +9,7 @@ An interactive Google chrome extension that displays US post-tax prices when the
 ## Features
 
 <p align='center'>
-<img src="./readme_assets/save_website_url.gif" height='500'/>
+<img src="./readme_assets/save_website_url.gif" height='400'/>
 </p>
 
 ### SQLite Database and Local chrome.storage
@@ -23,7 +23,7 @@ Users may toggle whether or not they wish to run the extension on the active web
 ---
 
 <p align='center'>
-<img src="./readme_assets/compatibility.gif" height='500'/>
+<img src="./readme_assets/compatibility.gif" height='400'/>
 </p>
 
 ### Wide Compatibility
