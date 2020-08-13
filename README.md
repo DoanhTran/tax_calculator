@@ -8,13 +8,25 @@ An interactive Google chrome extension that displays US post-tax prices when the
 
 ## Features
 
+<p align='center'>
+<img src="./readme_assets/save_website_url.gif" height='300'/>
+</p>
+
 ### SQLite Database and Local chrome.storage
 
-Chrome extension queries updated US tax rates from SQlite database, and stores zip code information that user wishes to save, as well as whitelisted sites that user wishes to run their extension on a local chrome.storage.
+Chrome extension queries updated US tax rates from SQlite database, and stores the zip code information that the user wishes to save, as well as whitelisted sites on which the user wishes the extension to run, on a local chrome.storage. Extension automatically runs on sites once they have been whitelisted.
 
 ### Programatically Injected React Content Scripts
 
 Users may toggle whether or not they wish to run the extension on the active webpage, to maximize privacy and code efficiency. Content scripts are written in React and HTML/CSS, and are programatically injected into the underlying webpage using the chrome.tabs API. 
+
+<p align='center'>
+<img src="./readme_assets/compatability.gif" height='300'/>
+</p>
+
+### Wide Compatibility
+
+Extension is compatible with a variety of sites, using depth first search traversals to locate price information. Extension regularly updated to run on new sites.
 
 ## Authors
 
