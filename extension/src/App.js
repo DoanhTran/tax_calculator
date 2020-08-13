@@ -10,10 +10,39 @@ function App() {
 
   var PRICE = "price";
   const [taxRate, setTaxRate] = useState();
-  
-  const [trackSite, setTrackSite] = useState(false);
+ 
   const [urlList, setUrlList] = useState([]);
   const url = 'URL'
+  const [trackSite, setTrackSite] = useState(result);
+  var result
+
+  useEffect(()=>{
+    getInitialToggle();
+  }, [])
+
+ 
+  function getInitialToggle(){
+    chrome.storage.sync.get('urlList', function(result){
+      console.log("result", result);
+      chrome.tabs.query({active: true, currentWindow: true}, tabs => {
+        const url = new URL(tabs[0].url);
+        const domain = url.hostname;
+        console.log("domain", domain);
+        
+        if(result['urlList'][domain] === true){
+          console.log("url not in url list");
+          setTrackSite(true);
+          //return true;
+        }
+        else{
+          setTrackSite(false);
+          //return false;
+        }
+      })
+    })
+  }
+
+
 
   const handleToggle = () => {
     setTrackSite(!trackSite)
@@ -24,25 +53,20 @@ function App() {
   chrome.tabs.query({active: true, currentWindow: true}, tabs => {
     const url = new URL(tabs[0].url);
     const domain = url.hostname;
-    if (trackSite) {
-      setUrlList(urlList.concat(domain));  
-    }
-   
     let urlCopy = Object.assign({}, urlList)
   
     if (trackSite) {
-      if (!(domain in urlList)) {
-        urlCopy[domain] = 'tracking'
-        setUrlList(urlCopy)
-      }
+        // console.log('the tracksite option is true')
+        urlCopy[domain] = true;
+
     }
 
     else {
-      if (domain in urlList) {
-        delete urlCopy[domain]
-        setUrlList(urlCopy)
+        // console.log('the tracksite option is false')
+        urlCopy[domain] = false;
       }
-    }
+
+    setUrlList(urlCopy)
   })
   }, [trackSite])
 
@@ -57,9 +81,13 @@ function App() {
 
 
   useEffect(() => {
-    chrome.runtime.sendMessage({type: url, urlList: urlList}, function(response){
-    });
+
+    if (Object.keys(urlList)[0] !== undefined) {
+      chrome.runtime.sendMessage({type: url, urlList: urlList}, function(response){
+      });
+    }
   }, [urlList])
+
 
   return (
     <div className="grid-container">
