@@ -9,7 +9,7 @@
 /coverage
 
 # production
-/extension/build
+/build
 
 # misc
 .DS_Store
@@ -23,4 +23,4 @@ yarn-debug.log*
 yarn-error.log*
 *.pyc
 *.yml
-database/venv/
+../database/venv/

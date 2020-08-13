@@ -1,0 +1,1 @@
+{"version":3,"sources":["content.css"],"names":[],"mappings":"AACA,cACI,iBACH,CAED,iBACI,UAAc,CACd,cAAe,CACf,iBACJ","file":"content.css","sourcesContent":["/* src/content.css */\n.my-extension {\n    place-self: center;\n }\n \n.my-extension h1 {\n    color: #000000;\n    font-size: 15vw;\n    text-align: center;\n}\n\n\n"]}
