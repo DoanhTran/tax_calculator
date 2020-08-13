@@ -1,5 +1,9 @@
 
+<<<<<<< HEAD
 /*global chrome*/
+=======
+ /*global chrome*/
+>>>>>>> 831a5ec1726fc378c8cf375ea81104bd302be129
  import React, {useEffect, useState, useRef} from 'react'; 
  import ReactDOM, { findDOMNode } from 'react-dom';
  import "./content.css";
@@ -71,7 +75,8 @@
  
                      }else{
                          parentEl = node.parentElement
-                     }
+                     
+                     
                      
  
                      parentEl.addEventListener('mouseenter', event => {
@@ -128,7 +133,6 @@
          }
  
  
-
  
          /* Find value after the dollar sign and multiply by tax. Returns null if there is no price 
          after the dollar sign.
