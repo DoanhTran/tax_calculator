@@ -54,6 +54,10 @@ chrome.runtime.onMessage.addListener(
             // console.log('this is request', request.urlList)
 
             urlList[Object.keys(request.urlList)[0]] = request.urlList[Object.keys(request.urlList)[0]]
+            chrome.storage.sync.set({urlList: urlList}, function(){});
+            chrome.storage.sync.get('urlList', function(result){
+                console.log("result", result['urlList']);
+            })
             console.log(urlList)
             if (urlList[currUrl] === true){
                 chrome.tabs.insertCSS({file: './static/css/app.css'}, function(tab){

@@ -10,10 +10,39 @@ function App() {
 
   var PRICE = "price";
   const [taxRate, setTaxRate] = useState();
-  
-  const [trackSite, setTrackSite] = useState(false);
+ 
   const [urlList, setUrlList] = useState([]);
   const url = 'URL'
+  const [trackSite, setTrackSite] = useState(result);
+  var result
+
+  useEffect(()=>{
+    getInitialToggle();
+  }, [])
+
+ 
+  function getInitialToggle(){
+    chrome.storage.sync.get('urlList', function(result){
+      console.log("result", result);
+      chrome.tabs.query({active: true, currentWindow: true}, tabs => {
+        const url = new URL(tabs[0].url);
+        const domain = url.hostname;
+        console.log("domain", domain);
+        
+        if(result['urlList'][domain] === true){
+          console.log("url not in url list");
+          setTrackSite(true);
+          //return true;
+        }
+        else{
+          setTrackSite(false);
+          //return false;
+        }
+      })
+    })
+  }
+
+
 
   const handleToggle = () => {
     setTrackSite(!trackSite)
@@ -29,6 +58,7 @@ function App() {
     if (trackSite) {
         // console.log('the tracksite option is true')
         urlCopy[domain] = true;
+
     }
 
     else {
@@ -57,6 +87,7 @@ function App() {
       });
     }
   }, [urlList])
+
 
   return (
     <div className="grid-container">
