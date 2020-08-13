@@ -28,7 +28,7 @@ Users may toggle whether or not they wish to run the extension on the active web
 
 ### Wide Compatibility
 
-Extension is compatible with a variety of sites, using depth first search traversals to locate price information. Extension regularly updated to run on new sites.
+Extension utilizes depth first search algorithms to locate price information across a variety of websites. Extension is regularly updated to be compatible with new sites.
 
 ---
 
