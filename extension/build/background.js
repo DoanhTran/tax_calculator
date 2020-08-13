@@ -1,6 +1,5 @@
 /*global chrome*/
 
-
 var url = 'URL';
 var currUrl = null;
 var urlList = {};

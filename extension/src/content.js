@@ -1,9 +1,4 @@
-
-<<<<<<< HEAD
-/*global chrome*/
-=======
  /*global chrome*/
->>>>>>> 831a5ec1726fc378c8cf375ea81104bd302be129
  import React, {useEffect, useState, useRef} from 'react'; 
  import ReactDOM, { findDOMNode } from 'react-dom';
  import "./content.css";
@@ -11,7 +6,6 @@
  
  var PRICE = 'price';
  var COORDS = 'coords';
- 
  
  function Tax() {
  
@@ -24,7 +18,6 @@
      const [currUrl, setCurrUrl] = useState(null);
  
  
-     
      chrome.storage.sync.get('currentTax', function(result) {
          if (result.currentTax!==undefined){
              setTax(parseFloat(result.currentTax.rate)+1);
@@ -35,14 +28,19 @@
  
      chrome.extension.onMessage.addListener(
          function(request, sender, sendResponse) {
+             console.log('received some info');
+             console.log("tax type",typeof(request.tax))
              if (request.type === PRICE && typeof(request.tax) === "number") {
                  setTax(request.tax);
-                 if (request.whitelist){  
+                 if (request.whitelist){
                      getDOM(request.tax)
                  }
              }
+ 
          }
      );
+ 
+     
  
      function getDOM(tax){
  
@@ -75,7 +73,9 @@
  
                      }else{
                          parentEl = node.parentElement
-                     
+                     }
+                        
+                         //const classname = parentEl.className;
                      
                      
  
@@ -93,9 +93,14 @@
                          app.style.display = "none";
                          setPrice();
                      })
+                     //list.push(classname);
+                     // console.log(list);
+                     // console.log('$ node');
+                     // console.log ("classname: ", classname);
                  }
              }
-        
+         
+             //console.log('no $');
              if (node.hasChildNodes()){
                  let children = node.childNodes;  
                  for (let i = 0; i < children.length; i++){
@@ -132,8 +137,6 @@
              
          }
  
- 
- 
          /* Find value after the dollar sign and multiply by tax. Returns null if there is no price 
          after the dollar sign.
          Parameters: 
@@ -153,12 +156,15 @@
              }
  
              let value = (parseFloat(price) * tax);
+             //console.log("price:", value);
  
              if(isNaN(value)) return null;
  
  
              const whole = Math.floor(value).toString();
+             //console.log("whole:", whole);
              const dec = (value - whole).toFixed(2).toString().slice(1);
+             //console.log("dec:", dec);
              price = commatize(whole) + dec;
  
              return price;
@@ -219,6 +225,8 @@
  document.addEventListener('mousemove', saveMousePos);
  
  function saveMousePos(event) {
+     // console.log(event.pageX)
+     // console.log(event.pageY)
      var app = document.getElementById("my-extension-root");
      app.style.position = "absolute";
      app.style.left = event.pageX+'px';
