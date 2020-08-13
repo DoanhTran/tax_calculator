@@ -21,7 +21,7 @@ Chrome extension queries updated US tax rates from SQlite database, and stores t
 Users may toggle whether or not they wish to run the extension on the active webpage, to maximize privacy and code efficiency. Content scripts are written in React and HTML/CSS, and are programatically injected into the underlying webpage using the chrome.tabs API. 
 
 <p align='center'>
-<img src="./readme_assets/compatability.gif" height='300'/>
+<img src="./readme_assets/compatibility.gif" height='300'/>
 </p>
 
 ### Wide Compatibility
