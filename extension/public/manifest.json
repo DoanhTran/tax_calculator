@@ -9,9 +9,9 @@
   },
 
   "icons": {
-    "16": "doge-small.png",
-    "48": "doge-small.png",
-    "128": "doge-small.png"
+    "16": "cutting_tax16.png",
+    "48": "cutting_tax32.png",
+    "128": "cutting_tax32.png"
   },
 
   "content_security_policy": "script-src 'self' 'sha256-g/jBduJ8gtcSStaMlu0E6CHf3HQ+OTXD1CntHjgL7gg='; object-src 'self'",
@@ -21,9 +21,9 @@
     "activeTab",
     "contextMenus",
     "storage",
-    "tabs", 
-    "http://*/*", 
-    "https://*/*" 
+    "tabs",
+    "http://*/*",
+    "https://*/*"
 
   ],
 
@@ -31,10 +31,10 @@
     "scripts": ["background.js"]
   },
 
- 
+
 
   "web_accessible_resources":[
-    "/static/css/content.css", 
+    "/static/css/content.css",
     "/static/js/content.js"
  ]
 }

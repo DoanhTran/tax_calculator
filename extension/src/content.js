@@ -8,24 +8,13 @@ import Frame, { FrameContextConsumer }from 'react-frame-component';
 var PRICE = 'price';
 var COORDS = 'coords';
 
-
-
-
-
 function Tax() {
 
     const [tax, setTax] = useState();
     const [price, setPrice] = useState();
-    //const [whitelist, setWhiteList] = useState(true);
-    // const [x, setX] = useState(0)
-    // const [y, setY] = useState(0)
-    //const pricetag = useRef(null);
     const windowSize = useRef(window.innerHeight);
     var timer;
     var url = 'URL';
-    const [urlList, setUrlList] = useState({})
-    const [currUrl, setCurrUrl] = useState(null);
-
 
     console.log("running content.js")
     
@@ -36,7 +25,6 @@ function Tax() {
             getDOM(parseFloat(result.currentTax.rate)+1);
         }
     })
-
 
     chrome.extension.onMessage.addListener(
         function(request, sender, sendResponse) {
@@ -68,8 +56,6 @@ function Tax() {
     // }
 
 
-    
- 
 
     function getDOM(tax){
 
@@ -126,7 +112,7 @@ function Tax() {
                         app.style.display = "none";
                         setPrice();
                     })
-                    //list.push(classname);
+                    // list.push(classname);
                     // console.log(list);
                     // console.log('$ node');
                     // console.log ("classname: ", classname);
@@ -252,15 +238,10 @@ function Tax() {
             }
 
             let value = (parseFloat(price) * tax);
-            //console.log("price:", value);
-
-            if(isNaN(value)) return null;
-
-
+            if(isNaN(price)) return null;
             const whole = Math.floor(value).toString();
-            //console.log("whole:", whole);
+ 
             const dec = (value - whole).toFixed(2).toString().slice(1);
-            //console.log("dec:", dec);
             price = commatize(whole) + dec;
 
             return price;
@@ -280,14 +261,12 @@ function Tax() {
             return begin + ',' + lastThree;
         }
 
-
         var list =[];
 
         findDollarSign(document);
         return list;
     }
 
-    
 
     return (
         <Frame head={[<link type="text/css" rel="stylesheet" href={chrome.runtime.getURL("/static/css/content.css")} ></link>]}> 
@@ -330,48 +309,4 @@ function saveMousePos(event) {
 }
 
 
-   // document.addEventListener('mousemove', updateDOM);
-
-    // function updateDOM(event){
-    //     console.log("current position", event.pageY);
-    //     console.log("window size: ", windowSize.current);
-    //     if(event.pageY > windowSize.current){
-            
-    //         getDOM(tax);
-    //         windowSize.current = windowSize.current + window.innerHeight;
-    //     }
-    // }
-
-    // useEffect(()=>{
-    //     var e = document.event;
-    //     if(e.pageY > windowSize.current){
-    //         getDOM(tax);
-    //         windowSize.current = windowSize.current + document.clientHeight;
-    //     }
-    // })
-
-    // document.addEventListener('click', saveMousePos);
-
-    // function saveMousePos(event) {
-    //     setX(event.clientX)
-    //     setY(event.clientY)
-    //     console.log(event.clientX)
-    //     console.log(event.clientY)
-    // }
-
-
-// {/* <Frame head={[<link type="text/css" rel="stylesheet" href={chrome.runtime.getURL("/static/css/content.css")} ></link>]}> 
-//             <FrameContextConsumer>
-//                 {
-//                     ({document, window}) => {
-//                         return(
-//                             <div className='my-extension'>
-//                                 <h1>{price}</h1>
-//                             </div>
-//                         )
-//                     }
-//                 }
-            
-                
-//             </FrameContextConsumer>
-//        </Frame> */}
+ 

@@ -16,42 +16,32 @@ function App() {
   const url = 'URL'
 
   const handleToggle = () => {
-    
     setTrackSite(!trackSite)
-    console.log("tracksite", trackSite);
   }
 
 
   useEffect(() => {
-  console.log("running use effect");
   chrome.tabs.query({active: true, currentWindow: true}, tabs => {
     const url = new URL(tabs[0].url);
     const domain = url.hostname;
-    if (trackSite) {
-      setUrlList(urlList.concat(domain));  
-    }
-   
     let urlCopy = Object.assign({}, urlList)
   
     if (trackSite) {
-      if (!(domain in urlList)) {
-        urlCopy[domain] = 'tracking'
-        setUrlList(urlCopy)
-      }
+        // console.log('the tracksite option is true')
+        urlCopy[domain] = true;
     }
 
     else {
-      if (domain in urlList) {
-        delete urlCopy[domain]
-        setUrlList(urlCopy)
+        // console.log('the tracksite option is false')
+        urlCopy[domain] = false;
       }
-    }
+
+    setUrlList(urlCopy)
   })
   }, [trackSite])
 
 
   useEffect(()=>{
-    console.log("tax rate has changed", taxRate);
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {type: PRICE, tax: taxRate}, function(response) {
       }); 
@@ -61,9 +51,11 @@ function App() {
 
 
   useEffect(() => {
-    chrome.runtime.sendMessage({type: url, urlList: urlList}, function(response){
-      console.log("sending url list");
-    });
+
+    if (Object.keys(urlList)[0] !== undefined) {
+      chrome.runtime.sendMessage({type: url, urlList: urlList}, function(response){
+      });
+    }
   }, [urlList])
 
   return (
