@@ -4,7 +4,8 @@ import DisplayTax from "../displaytax.js";
 import ManageZip from "../manageZip";
 /*global chrome*/
 
-const fakeSavedList = {14850:{name:"home: "}, 12345:{name:"school: "}}
+
+const fakeSavedList = {0:{name:"home", zip:12345}, 1:{name:"scl", zip:14850}}
 
 
 export default function NewInputBox({updateTax}) {
@@ -15,23 +16,45 @@ export default function NewInputBox({updateTax}) {
   const [zipcode, setZipcode] = useState("");
   const [save, setSave] = useState(false);
   const [savedZip, setSavedZip] =useState({})
-  const [searchOption, setSearchOption]= useState([])
+//  const [searchOption, setSearchOption]= useState([])
   const [editWindow, displayEditWindow]= useState(false)
+  const [inRate,setInitialRate] = useState('');
+  const [inRegion, setInitialReg] = useState('')
   useEffect(() => {
-    setSavedZip(fakeSavedList)
-    inputBoxRef.current.focus()
     
     
-//     chrome.storage.sync.get('currentTax', function(result) {
-//       console.log("get dat is called");
-//         console.log('Value currently is ' + result.currentTax);
-//         console.log(result)
-//         console.log(result.currentTax)
-//         if (result.currentTax!==undefined){
-//           setZipcode(result.currentTax.zip);
-//           setSave(null);
-//         }
-//       });
+      chrome.storage.sync.get(['currentTax', 'savedZip'], function(result) {
+      console.log("get dat is called");
+        console.log('Value currently is ', result.currentTax);
+        console.log(result)
+        console.log(result.currentTax)
+        if (result.currentTax!==undefined){
+          setZipcode(result.currentTax.zip);
+          console.log("taxRate", result.currentTax.rate)
+          setInitialRate(result.currentTax.rate)
+          setInitialReg(result.currentTax.tReg)
+          setSave(null);
+        }else inputBoxRef.current.focus()
+
+        if (result.savedZip!==undefined){
+          console.log("on mount saved zip is define",result.savedZip )
+          setSavedZip(result.savedZip)
+
+        }
+      });
+    
+    
+    
+
+      // return ()=>{
+      //   console.log("return is called")
+      //   chrome.storage.sync.set({savedZip:savedZip}, function(){
+
+      //     window.alert("savedzip is save", savedZip)
+      //   })
+
+      // }
+
    },[]);
 
   
@@ -70,8 +93,21 @@ export default function NewInputBox({updateTax}) {
     setSave(true);
   };
 
-  const optionClick = (event) =>{
-    setZipcode(event.currentTarget.attributes.getNamedItem('data-zip').value)
+  const closeEditZip = (changedZip) =>{
+
+    if(changedZip){
+      chrome.storage.sync.set({savedZip:savedZip}, function(){})
+      setSavedZip(changedZip)}
+    displayEditWindow(false)
+  }
+
+
+  const optionClick = (zip) =>{
+    //change the textbox to match the saved data
+    //console.log("option click")
+  
+    
+    setZipcode(zip)
     //setZipcode(event.target.attrbutes['data-zip'])
     setSave(true)
     
@@ -79,27 +115,6 @@ export default function NewInputBox({updateTax}) {
 
   const editZipClick = (event) => {
     displayEditWindow(true)
-  }
-
-  useEffect(()=>{
-    setSearchOption(searchOption=>{return make_htmlList()})
-    
-  },[savedZip])
-
-  function make_htmlList(){
-    let html= [<div className="searchUnder"></div>];
- 
-    Object.keys(savedZip).forEach(index=> {
-      
-      const savedButt = <button className="savedOptions" key={index} data-zip={index} onClick={optionClick} ><span>{savedZip[index].name}</span><span>{index}</span></button>
-      html.push(savedButt);
-      
-      
-    });
-    html.push(<button key={"editsavedbutt"} onClick={editZipClick}>Edit Your Zipcodes</button>)
-    console.log(html)
- 
-    return html
   }
 
   const focusInput = (event) => {
@@ -112,7 +127,7 @@ export default function NewInputBox({updateTax}) {
     setSave(false);
     event.currentTarget.addEventListener("keyup", function(event) {
          if (event.currentTarget.value!=='' && event.keyCode === 13){
-           console.log(zipcode)
+           //console.log(zipcode)
            setSave(true)
            inputBoxRef.current.blur()
          }})
@@ -153,11 +168,11 @@ export default function NewInputBox({updateTax}) {
   function maxFive(text) {
     if (text.length > 5) {
       setAnimation("shake");
-      console.log("text is longer than 5 characters")
-      console.log("animation 1:", animation);
+      // console.log("text is longer than 5 characters")
+      // console.log("animation 1:", animation);
       setTimeout(function () {
         setAnimation();
-        console.log("animation 2:", animation);
+        //fconsole.log("animation 2:", animation);
       }, 200);
       return text.slice(0, 5);
     }
@@ -168,7 +183,7 @@ export default function NewInputBox({updateTax}) {
     
     
     <>
-
+    {console.log("inRate taxtRate in return", inRate)}
       <label className ="ziplabel">Zipcode: &#160;</label>
       <div className = "multisearch-container green-outline" ref={searchContainerRef}>
       
@@ -190,18 +205,28 @@ export default function NewInputBox({updateTax}) {
                 
                 {save|| save===null ? <button className="glass-icon glass-grey" onClick={focusInput}></button> : <button className="glass-icon glass-green"onClick={handleSubmit}></button>}
                 </div>
-                {save|| save===null ? '':<div  className="search-option-container">{searchOption}</div>}
+                {save|| save===null ? '':<div  className="search-option-container">{<OptionList savedZip={savedZip} optionClick={optionClick} editZipClick={editZipClick}></OptionList>}</div>}
 
                 </div>
     
-      
+  
+      <DisplayTax save={save} zipcode={zipcode} updateTax={updateTax} taxRate={inRate} taxRegion={inRegion}></DisplayTax>
+      <ManageZip editZipClick={editWindow} closeEdit={closeEditZip} savedZip={savedZip}></ManageZip>
+    </>
+  )
+}
 
-      {/* <button type="submit">Submit</button> */}
 
-      {/* {save|| save===null ? "" : <button onClick={handleSubmit}>Submit</button>} */}
-      {/* </form> */}
-      <DisplayTax save={save} zipcode={zipcode} updateTax = {updateTax}></DisplayTax>
-      <ManageZip editZipClick={editWindow} savedZip={savedZip}></ManageZip>
+function OptionList(props){
+  return(
+    <>
+    <div className="searchUnder"></div>
+    {Object.keys(props.savedZip).map(key => {
+      return <button className="savedOptions" key={key} data-zip={props.savedZip[key].zip} onClick={()=>{props.optionClick(props.savedZip[key].zip)}} ><span>{props.savedZip[key].name}</span><span>{props.savedZip[key].zip}</span></button>
+
+    })}
+    <button key={"editsavedbutt"} onClick={()=>props.editZipClick()}>Add/edit saved zip</button>
+
     </>
   )
 }

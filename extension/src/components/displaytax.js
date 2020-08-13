@@ -20,7 +20,8 @@ class DisplayTax extends React.Component {
    
   }
 
-  // componentDidMount(){
+ 
+
   //   chrome.storage.sync.get('currentTax', function(result) {
   //     console.log("get dat is called in display");
   //       console.log('Value currently is ' + result.currentTax);
@@ -31,9 +32,19 @@ class DisplayTax extends React.Component {
   //       }
   //     }.bind(this));
   // }
-
+  componentWillUnmount(){
+    window.alert("unmount")
+  }
 
   componentDidUpdate(prevProps) {
+    if (this.props.taxRate && this.props.taxRate!== prevProps.taxRate){
+      this.setState({taxRate:this.props.taxRate})
+    }
+
+    if (this.props.taxRegion && this.props.taxRegion!== prevProps.taxRegion){
+      this.setState({taxRegion:this.props.taxRegion})
+    }
+
     if (this.props.save !== prevProps.save && this.props.save === true) {
       console.log("saveindisplay");
       const zip = this.props.zipcode

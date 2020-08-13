@@ -1,11 +1,81 @@
 import React, { useState, useEffect, createRef } from "react";
 import "../App.css"
 
+export default function ManageZip(props) {
+	const [adding, setAddingState]= useState(false)
+	const [timeStamp, setTimeStamp] = useState(0)
+	const [savedZip, setLocalSavedZip] = useState({})
+	const addClick = () =>{
+		console.log("add click")
+		const time = new Date().getTime()
+		setTimeStamp(time)
+		setAddingState(true)
+
+	}
+	const onNewSave = (key, editedObj)=>{
+		console.log('key',key)
+		console.log('newsave',editedObj)
+		addEditZip(key, editedObj)
+		setAddingState(false)
+		
+	}
+	
+	useEffect(() => {
+		//console.log("in use effect edit zip click")
+		if (props.editZipClick){
+
+			setLocalSavedZip(props.savedZip)
+			
+			console.log("savedzip in manage",savedZip)
+		}
+		
+	},[props.editZipClick])
+
+	const addEditZip = (zip, editedObj)=>{
+		//console.log("add zip edit call")
+		savedZip[zip] = editedObj
+		//console.log("new sldkfiew", savedZip)
+		setLocalSavedZip(savedZip)
+	}
+
+	const deletezip = (key) =>{
+		console.log('delete call')
+		delete savedZip[key]
+		addEditZip(savedZip)
+	}
+
+	if (props.editZipClick){
+		
+		
+	return (
+
+		<>
+		<div className="edit-window">
+			<>{Object.keys(props.savedZip).map(key => {
+			//console.log("in edit", key)
+			return <EditCard key={key} keyProp ={key} zipcode={props.savedZip[key].zip} name= {props.savedZip[key].name} editing={false} onSave={addEditZip} deletezip={deletezip}></EditCard>
+			
+		})}
+			{adding?<EditCard key ={timeStamp} keyProp={timeStamp} zipcode={''} name={''} editing={true} onSave={onNewSave} deletezip={deletezip} onCancel={()=>{setAddingState(false)}}></EditCard>: <button onClick={addClick}>add</button> }
+		
+		</>
+			{adding?'':<button onClick={()=>{props.closeEdit(savedZip)}}>done</button>}
+			<button onClick={()=>{props.closeEdit()}}>close</button>
+		</div>
+		</>
+	)}
+	
+	else{ return null}
+
+}
+
+
 
 function EditCard(props){
-	const [editing, changeEditState]= useState(false);
+	const [editing, changeEditState]= useState(props.editing);
 	const [zipcode, setZipcode] = useState(props.zipcode?props.zipcode:'')
 	const [name, setName]= useState(props.name?props.name:'')
+
 
 	const handleOnChange = (event) => {
 		//console.log("animation", animation);
@@ -15,10 +85,32 @@ function EditCard(props){
 	  };
 
 	const handleNameChange = (event) =>{
-		setName(event.currentTarget.value)
+		const input = event.currentTarget.value;
+		//console.log("name input", input)
+		
+		setName(input)
 	}
 
 	const onSave = (event) => {
+		if(zipcode !==''){
+		console.log("props.key in card", props.keyProp)
+		props.onSave(props.keyProp, {name:name, zip:zipcode})
+		changeEditState(false)
+		}
+		else{window.alert("zipcode can not be empty")// need a better way to show this}
+	}
+}
+
+	const removeClicked = (event) =>{
+		console.log("remove click")
+		props.deletezip(props.keyProp)
+	}
+
+	const cancelClicked = (event) =>{
+		console.log("cancelClicked")
+		setZipcode(props.zipcode)
+		setName(props.name)
+		if(props.onCancel)props.onCancel();
 		changeEditState(false)
 	}
 
@@ -60,26 +152,28 @@ function EditCard(props){
 		changeEditState(true)
 	}
 	if (!editing){
+		//console.log("not editing create in edit card")
 		return (
 		<div className="edit-zip-card">
 		<label htmlFor="name">name:</label>
-		<input name="name" className="card-input card-input-readonly" type="text" value={name} readOnly/>
+		<input name="name" className="card-input card-input-readonly" type="text" placeholder='name this zipcode' value={name} readOnly/>
 		<label htmlFor="zip">zip code:</label>
-		<input name="zip" type="text" className="card-input card-input-readonly" readOnly value={zipcode}/>
+		<input name="zip" type="text" className="card-input card-input-readonly" placeholder='zipcode xxxxx' readOnly value={zipcode}/>
 		<button onClick={handleEditClicked}>edit</button>
-		<button>remove</button>
+		<button onClick={removeClicked}>remove</button>
 		</div>
 		)}
 
 	else {
+		//console.log(" editing create in edit card")
 	return(
 		<div className="edit-zip-card">
 		<label htmlFor="name">name:</label>
-		<input name="name" className="card-input" type="text" value={props.name?props.name:''} onChange ={handleNameChange}/>
+		<input name="name" className="card-input" type="text" value={name}  placeholder='name this zipcode' onChange ={handleNameChange}/>
 		<label htmlFor="zip">zip code:</label>
-		<input name="zip" type="text" className="card-input" onChange={handleOnChange} value={zipcode}/>
+		<input name="zip" type="text" className="card-input" onChange={handleOnChange} placeholder='zipcode xxxxx' value={zipcode}/>
 		<button onClick={onSave}>save</button>
-		<button>remove</button>
+		<button onClick={cancelClicked}>cancel</button>
 		</div>
 	)}
 
@@ -88,48 +182,36 @@ function EditCard(props){
 
 }
 
-export default function ManageZip(props) {
-	let editZipList =[]
-	useEffect(() => {
-		
-	},[props.editZipClick])
+function SaveZipList(props){
+	const [adding, setAddingState]= useState(false)
+	const [timeStamp, setTimeStamp] = useState(0)
+	const addClick = () =>{
+		console.log("add click")
+		const time = new Date().getTime()
+		setTimeStamp(time)
+		setAddingState(true)
 
-	const addEmpty = (event) =>{
-		editZipList.push(<EditCard></EditCard>)
 	}
-	
-	
-	function make_editable_card(){
-		let editZipList = []
-		Object.keys(props.savedZip).forEach(index=>{
-			const card = <EditCard key={index} zipcode={index} name={props.savedZip[index].name} ></EditCard>
-			editZipList.push(card)
-		})
-		return editZipList
+	const onNewSave = (key, editedObj)=>{
+		console.log('key',key)
+		console.log('newsave',editedObj)
+		props.editLocalZip(key, editedObj)
+		setAddingState(false)
 		
 	}
-
-	
-	
-	
-	
-	
-	if (props.editZipClick){
-		console.log(editZipList)
-		
 	return (
 		<>
-		<div className="edit-window">
-			{make_editable_card()}
-			<button>done</button>
-			<button>cancel</button>
-			<button onClick={addEmpty}>Add</button>
-		</div>
+		
+		<>{Object.keys(props.savedZip).map(key => {
+			//console.log("in edit", key)
+			return <EditCard key={key} keyProp ={key} zipcode={props.savedZip[key].zip} name= {props.savedZip[key].name} editing={false} onSave={props.editLocalZip} deletezip={props.deletezip}></EditCard>
+			
+		})}</>
+		{console.log("timpe stamp in add render", timeStamp)}
+		{adding?<EditCard key ={timeStamp} keyProp={timeStamp} zipcode={''} name={''} editing={true} onSave={onNewSave} deletezip={props.deletezip} onCancel={()=>{setAddingState(false)}}></EditCard>: <button onClick={addClick}>add</button> }
+		
 		</>
-	)}
 	
-	else{ return <div></div>}
+	)
 
 }
-
-
