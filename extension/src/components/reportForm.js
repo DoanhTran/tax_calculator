@@ -19,28 +19,31 @@ class ReportForm extends React.Component {
       <>
       <div className="process process-invisible" ref ={this.process}><p>processing...</p></div>
       <div className="report-form-container">
-        <button onClick={this.cancelClick}>cancel</button>
-
-       <h3>Report Issue</h3>
-      
+      <div className="edit-header">
+        <button className="back-button" onClick={this.cancelClick}>Cancel</button>
+        <div className="fill-space"></div>
+        <div className="enable-text">Report Issue</div>
+      </div>
+      <div className="divider"></div>
+       
       <form className="report" onSubmit={this.handleSubmit}>
-        <label htmlFor="title">topic</label>
-        <input name="title" type="text"></input>
-        <label htmlFor="email">
+        <label className="text-lab" htmlFor="title">topic</label>
+        <input name="title" className="report-input" type="text"></input>
+        <label className="text-lab" htmlFor="email">
           email (optional!)
         </label>
-        <input name="email" type="text"></input>
-        <label htmlFor="message">Please provide å with some details regarding the issue</label>
-        <input name="message"></input>
-        <button type="submit">Submit</button>
+        <input name="email" className="report-input" type="text"></input>
+        <label className="text-lab" htmlFor="message">Please provide some details regarding the issue</label>
+        <input name="message" className="report-input" ></input>
+        <button className="primary-button"type="submit">Submit</button>
       </form>
       </div>
       </>
     );
 
    
-    this.button = <div className="report-form-main"><div className="informationIcon"></div><div className="report-text"><p>If information is incorrect
-    or there are any issues with your experience please<button id="report-button" onClick={this.reportIssue}>Report</button></p></div></div>;
+    this.button = <div className="report-form-main"><div className="informationIcon"></div><div className="report-text"><div className="small-label">If the information is incorrect
+    or there are any issues with your experience please<button className="danger-button" onClick={this.reportIssue}>Report</button></div></div></div>;
     this.state = { process: OPEN };
   }
 

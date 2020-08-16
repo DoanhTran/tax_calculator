@@ -5,7 +5,6 @@ import ManageZip from "../manageZip";
 /*global chrome*/
 
 
-const fakeSavedList = {0:{name:"home", zip:12345}, 1:{name:"scl", zip:14850}}
 
 
 export default function NewInputBox({updateTax}) {
@@ -143,7 +142,7 @@ export default function NewInputBox({updateTax}) {
     
     
     <>
-      <label className ="ziplabel">Zipcode: &#160;</label>
+      <label className ="ziplabel text-lab">Zipcode: &#160;</label>
       <div className = "multisearch-container green-outline" ref={searchContainerRef}>
       
       <div className="searchBar-container normal">
@@ -181,10 +180,10 @@ function OptionList(props){
     <>
     <div className="searchUnder"></div>
     {Object.keys(props.savedZip).map(key => {
-      return <button className="savedOptions" key={key} data-zip={props.savedZip[key].zip} onClick={()=>{props.optionClick(props.savedZip[key].zip)}} ><span>{props.savedZip[key].name}</span><span>{props.savedZip[key].zip}</span></button>
+      return <button className="savedOptions" key={key} data-zip={props.savedZip[key].zip} onClick={()=>{props.optionClick(props.savedZip[key].zip)}} ><div className="savedIcon"></div><div className="option-name">{props.savedZip[key].name}:</div><div className="option-zip">{props.savedZip[key].zip}</div></button>
 
     })}
-    <button key={"editsavedbutt"} onClick={()=>props.editZipClick()}>Add/edit saved zip</button>
+    <button className="manage-zip-button" key={"editsavedbutt"} onClick={()=>props.editZipClick()}>+ Add/manage your zip code</button>
 
     </>
   )

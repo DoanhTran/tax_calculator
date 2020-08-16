@@ -92,7 +92,7 @@ function App() {
   return (
     <div className="grid-container">
       <div className="web-enable-container">
-        <label>Use tax calculator on this site?</label>
+        <label className="enable-text">Use tax calculator on this site?</label>
         <div className="fill-space"></div>
         <Toggle size="small" handleToggle={handleToggle} isChecked ={trackSite}></Toggle>
       </div>
