@@ -5,8 +5,6 @@ import ManageZip from "../manageZip";
 /*global chrome*/
 
 
-
-
 export default function NewInputBox({updateTax}) {
 
   const inputBoxRef = React.createRef()

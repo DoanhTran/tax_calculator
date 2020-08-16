@@ -152,32 +152,3 @@ function EditCard(props){
 		</div>
 	)}
 }
-
-// function SaveZipList(props){
-// 	const [adding, setAddingState]= useState(false)
-// 	const [timeStamp, setTimeStamp] = useState(0)
-// 	const addClick = () =>{
-// 		const time = new Date().getTime()
-// 		setTimeStamp(time)
-// 		setAddingState(true)
-
-// 	}
-// 	const onNewSave = (key, editedObj)=>{
-// 		props.editLocalZip(key, editedObj)
-// 		setAddingState(false)
-		
-// 	}
-// 	return (
-// 		<>
-		
-// 		<>{Object.keys(props.savedZip).map(key => {
-// 			return <EditCard key={key} keyProp ={key} zipcode={props.savedZip[key].zip} name= {props.savedZip[key].name} editing={false} onSave={props.editLocalZip} deletezip={props.deletezip}></EditCard>
-			
-// 		})}</>
-// 		{adding?<EditCard key ={timeStamp} keyProp={timeStamp} zipcode={''} name={''} editing={true} onSave={onNewSave} deletezip={props.deletezip} onCancel={()=>{setAddingState(false)}}></EditCard>: <button onClick={addClick}>add</button> }
-		
-// 		</>
-	
-// 	)
-
-// }
