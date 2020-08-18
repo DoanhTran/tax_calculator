@@ -132,9 +132,9 @@ function EditCard(props){
 		<div className="button-icon"><button className="edit-button icon-btn" onClick={handleEditClicked}></button>
 		<button onClick={removeClicked} className="remove-button icon-btn"></button></div>
 		<label htmlFor="name" className="name-label enable-text">name:</label>
-		<input name="name" className="card-input name-input card-input-readonly" type="text" placeholder='name this zipcode' value={name} readOnly/>
+		<input name="name" className="card-input name-input card-input-readonly" type="text" placeholder='name this place' value={name} readOnly/>
 		<label htmlFor="zip" className="zip-label enable-text">zip code:</label>
-		<input name="zip" type="text" className="card-input zip-card-input card-input-readonly" placeholder='zipcode xxxxx' readOnly value={zipcode}/>
+		<input name="zip" type="text" className="card-input zip-card-input card-input-readonly" placeholder='zipcode' readOnly value={zipcode}/>
 		
 		</div>
 		)}
@@ -144,9 +144,9 @@ function EditCard(props){
 		<div className="edit-zip-card">
 			<div className="button-icon"><button className="cancel-button danger-button" onClick={cancelClicked}>Cancel</button></div>
 		<label htmlFor="name" className="name-label enable-text">name:</label>
-		<input name="name" className="card-input name-input" type="text" value={name}  placeholder='name this zipcode' onChange ={handleNameChange}/>
+		<input name="name" className="card-input name-input" type="text" value={name}  placeholder='name this' onChange ={handleNameChange}/>
 		<label htmlFor="zip" className="zip-label enable-text">zip code:</label>
-		<input name="zip" type="text" className="card-input zip-card-input" onChange={handleOnChange} placeholder='zipcode xxxxx' value={zipcode}/>
+		<input name="zip" type="text" className="card-input zip-card-input" onChange={handleOnChange} placeholder='zipcode' value={zipcode}/>
 		<button onClick={onSave} className="edit-save primary-button">Save</button>
 		
 		</div>
