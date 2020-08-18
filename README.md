@@ -23,7 +23,7 @@ Users may toggle whether or not they wish to run the extension on the active web
 ---
 
 <p align='center'>
-<img src="./readme_assets/amazon_sarches.gif" height='400'/>
+<img src="./readme_assets/amazon_searches.gif" height='400'/>
 </p>
 
 ### Wide Compatibility
