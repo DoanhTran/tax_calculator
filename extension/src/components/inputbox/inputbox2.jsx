@@ -17,6 +17,8 @@ export default function NewInputBox({updateTax}) {
   const [editWindow, displayEditWindow]= useState(false)
   const [inRate,setInitialRate] = useState('');
   const [inRegion, setInitialReg] = useState('')
+  const [animation, setAnimation] = useState("zip-input");
+
   useEffect(() => {
     
     
@@ -53,7 +55,7 @@ export default function NewInputBox({updateTax}) {
   },[save])
 
 
-  const [animation, setAnimation] = useState();
+  
 
   const handleOnChange = (event) => {
     const input = event.currentTarget.value;
@@ -127,9 +129,9 @@ export default function NewInputBox({updateTax}) {
 
   function maxFive(text) {
     if (text.length > 5) {
-      setAnimation("shake");
+      setAnimation("zip-input shake");
       setTimeout(function () {
-        setAnimation();
+        setAnimation("zip-input");
       }, 200);
       return text.slice(0, 5);
     }
@@ -146,7 +148,7 @@ export default function NewInputBox({updateTax}) {
       <div className="searchBar-container normal">
               <input
                   ref={inputBoxRef}
-                  className = "zip-input"
+                  className = {animation}
                   type="text"
                   maxLength="6"
                   height = "3"

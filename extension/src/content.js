@@ -1,21 +1,38 @@
  /*global chrome*/
- import React, {useEffect, useState, useRef} from 'react'; 
- import ReactDOM, { findDOMNode } from 'react-dom';
+ import React, {useState, useRef} from 'react'; 
+ import ReactDOM from 'react-dom';
  import "./content.css";
  import Frame, { FrameContextConsumer }from 'react-frame-component';
  
  var PRICE = 'price';
- var COORDS = 'coords';
+ //var COORDS = 'coords';
  
+
+ const app = document.createElement('div');
+ app.id = "my-extension-root";
+ document.body.appendChild(app);
+ ReactDOM.render(<Tax/>, app);
+ app.style.display = "none";
+ 
+ document.addEventListener('mousemove', saveMousePos);
+ 
+
+ function saveMousePos(event) {
+     var app = document.getElementById("my-extension-root");
+     app.style.position = "absolute";
+     app.style.left = event.pageX+'px';
+     app.style.top = event.pageY+'px';
+ }
+ 
+
  function Tax() {
- 
      const [tax, setTax] = useState();
      const [price, setPrice] = useState();
      const windowSize = useRef(window.innerHeight);
-     var timer;
-     var url = 'URL';
-     const [urlList, setUrlList] = useState({})
-     const [currUrl, setCurrUrl] = useState(null);
+    //  var timer;
+    //  var url = 'URL';
+    //  const [urlList, setUrlList] = useState({})
+    //  const [currUrl, setCurrUrl] = useState(null);
  
  
      chrome.storage.sync.get('currentTax', function(result) {
@@ -43,6 +60,7 @@
      
  
      function getDOM(tax){
+        findDollarSign(document);
  
          /* Find the text node that has a dollar sign and triggers the price with tax sign when 
          user hovers over the price tag.
@@ -52,7 +70,6 @@
              if (node.nodeType === 3){
                  const dollarIndex = node.nodeValue.indexOf('$')
                  if(dollarIndex !== -1 ) {
-                     //list.append(node);
                     
                      let parentEl;
                      let price = findPrice(node.nodeValue.slice(dollarIndex+1), tax)
@@ -74,33 +91,22 @@
                      }else{
                          parentEl = node.parentElement
                      }
-                        
-                         //const classname = parentEl.className;
-                     
-                     
  
                      parentEl.addEventListener('mouseenter', event => {
                          if (price !== null){
                              setPrice('$' + price);
-                             //pricetag.current.style.display = "block";
                              app.style.display = "block";
                          }
                      })
  
- 
                      parentEl.addEventListener('mouseleave', event =>{
-                         //pricetag.current.style.display = "none";
                          app.style.display = "none";
                          setPrice();
                      })
-                     //list.push(classname);
-                     // console.log(list);
-                     // console.log('$ node');
-                     // console.log ("classname: ", classname);
                  }
              }
          
-             //console.log('no $');
+             
              if (node.hasChildNodes()){
                  let children = node.childNodes;  
                  for (let i = 0; i < children.length; i++){
@@ -109,7 +115,6 @@
              }
          }
         
-         
          
          /*Find number when price is separated into two nodes.
          Parameter: node is the sibling of the parent of dollar text node.
@@ -133,10 +138,10 @@
                      }
                  }    
              }
-             return result;
-             
+             return result;       
          }
  
+
          /* Find value after the dollar sign and multiply by tax. Returns null if there is no price 
          after the dollar sign.
          Parameters: 
@@ -171,7 +176,6 @@
          }
  
  
- 
          /*Place comma in the price every 3 digits.
          Parameter: price is a string of numbers.
          Condition: price is a string. */
@@ -183,12 +187,6 @@
              let begin = commatize(price.slice(0,-3));
              return begin + ',' + lastThree;
          }
- 
- 
-         var list =[];
- 
-         findDollarSign(document);
-         return list;
      }
  
      
@@ -205,31 +203,10 @@
                          )
                      }
                  }
-             
-                 
              </FrameContextConsumer>
-        </Frame>
- 
-         
-         
-     )
- 
+        </Frame> 
+     ) 
  }
  
- const app = document.createElement('div');
- app.id = "my-extension-root";
- document.body.appendChild(app);
- ReactDOM.render(<Tax/>, app);
- app.style.display = "none";
- 
- document.addEventListener('mousemove', saveMousePos);
- 
- function saveMousePos(event) {
-     // console.log(event.pageX)
-     // console.log(event.pageY)
-     var app = document.getElementById("my-extension-root");
-     app.style.position = "absolute";
-     app.style.left = event.pageX+'px';
-     app.style.top = event.pageY+'px';
- }
- 
+
+

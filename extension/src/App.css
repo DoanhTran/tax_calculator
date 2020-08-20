@@ -561,3 +561,26 @@
 }
 
 
+.shake {
+  animation-name: shake;
+  animation-duration: 0.15s;
+  animation-iteration-count: 1;
+ 
+}
+
+@keyframes shake {
+  0% {
+    padding-left: 0px;
+  }
+  50% {
+    padding-left: 3px;
+  }
+  70% {
+    padding-left: 1px;
+  }
+  100% {
+    padding-left: 0px;
+  }
+}
+
+
