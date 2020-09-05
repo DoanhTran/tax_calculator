@@ -67,7 +67,7 @@
          Parameter: a node from the website.
          Precondition: node is an html node.  */
          function findDollarSign(node){
-             if (node.nodeType === 3){
+             if (node !== null && node.nodeType === 3){
                  const dollarIndex = node.nodeValue.indexOf('$')
                  if(dollarIndex !== -1 ) {
                     
@@ -122,7 +122,7 @@
          function findWhole(node){
              let result = null;
              if (node === null || !node.hasChildNodes()){
-                 if (node.nodeType === 3 && !isNaN(parseInt(node.nodeValue))){
+                 if (node !== null && node.nodeType === 3 && !isNaN(parseInt(node.nodeValue))){
                      return node.nodeValue;
                  }else{
                      return null;
