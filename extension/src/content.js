@@ -57,8 +57,25 @@
          }
      );
  
-     
+     var oldpos = window.scrollY  
+     document.addEventListener('scroll', handleScroll);	   
+     function handleScroll(event){	 
+          
+         console.log("original pos", oldpos)
+         if (timer){	    
+             clearTimeout(timer);	   
+         }	   
+         var timer = setTimeout( function(){	
+             console.log("current pos", window.scrollY) 
+
+             if ((window.scrollY - oldpos) > 0){
+                getDOM(tax);	
+                oldpos = window.scrollY;
+             } 
+         }, 300);	 
+     }
  
+
      function getDOM(tax){
         findDollarSign(document);
  
