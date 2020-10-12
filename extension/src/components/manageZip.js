@@ -5,6 +5,8 @@ export default function ManageZip(props) {
 	const [adding, setAddingState]= useState(false)
 	const [timeStamp, setTimeStamp] = useState(0)
 	const [savedZip, setLocalSavedZip] = useState({})
+	
+
 	const addClick = () =>{
 		const time = new Date().getTime()
 		setTimeStamp(time)
@@ -25,13 +27,20 @@ export default function ManageZip(props) {
 	},[props.editZipClick])
 
 	const addEditZip = (zip, editedObj)=> {
+		
 		savedZip[zip] = editedObj
-		setLocalSavedZip(savedZip)
+		const edit =  {}
+		Object.assign(edit, savedZip)
+		setLocalSavedZip(edit)
 	}
 
 	const deletezip = (key) =>{
+	
+		
+		const edit =  {}
 		delete savedZip[key]
-		addEditZip(savedZip)
+		Object.assign(edit, savedZip)
+		setLocalSavedZip(edit)
 	}
 
 	if (props.editZipClick){
@@ -42,11 +51,14 @@ export default function ManageZip(props) {
 		<div className="edit-window">
 			<div className="edit-header"><button className="back-button" onClick={()=>{props.closeEdit(savedZip)}}>Back</button><div className="fill-space"></div><div className="enable-text">Manage Your Zip Code</div></div>
 			<div className="divider"></div>
-			<>{Object.keys(props.savedZip).map(key => {
-			return <EditCard key={key} keyProp ={key} zipcode={props.savedZip[key].zip} name= {props.savedZip[key].name} editing={false} onSave={addEditZip} deletezip={deletezip}></EditCard>
+			
+			<>{Object.keys(savedZip).map(key => {
+			return <EditCard key={key} keyProp ={key} zipcode={savedZip[key].zip} name= {savedZip[key].name} editing={false} onSave={addEditZip} deletezip={deletezip} ></EditCard>
 			
 		})}
-			{adding?<EditCard key ={timeStamp} keyProp={timeStamp} zipcode={''} name={''} editing={true} onSave={onNewSave} deletezip={deletezip} onCancel={()=>{setAddingState(false)}}></EditCard>: <button className="primary-button" onClick={addClick}>Add Zip Code</button> }
+			{adding?<EditCard key ={timeStamp} keyProp={timeStamp} zipcode={''} name={''} editing={true} onSave={onNewSave} deletezip={deletezip} onCancel={()=>{setAddingState(false)}} ></EditCard>: ""}
+			{!adding? <button className="primary-button" onClick={addClick}>Add Zip Code</button>:""}
+
 		
 		</>
 		</div>
@@ -78,6 +90,7 @@ function EditCard(props){
 
 	const onSave = (event) => {
 		if(zipcode !==''){
+		
 		props.onSave(props.keyProp, {name:name, zip:zipcode})
 		changeEditState(false)
 		}
@@ -86,6 +99,7 @@ function EditCard(props){
 }
 
 	const removeClicked = (event) =>{
+		console.log(props.keyProp)
 		props.deletezip(props.keyProp)
 	}
 
@@ -93,11 +107,14 @@ function EditCard(props){
 		setZipcode(props.zipcode)
 		setName(props.name)
 		if(props.onCancel)props.onCancel();
+		
 		changeEditState(false)
 	}
 
 	const handleEditClicked = (event) =>{
+		
 		changeEditState(true)
+
 
 	}
 
