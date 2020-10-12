@@ -9,7 +9,7 @@ An interactive Google chrome extension that displays US post-tax prices when the
 ## Features
 
 <p align='center'>
-<img src="./readme_assets/save_url.gif" height='400'/>
+<img src="./readme_assets/save_url3.gif" height='400'/>
 </p>
 
 ### SQLite Database and Local chrome.storage

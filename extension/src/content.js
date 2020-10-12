@@ -57,8 +57,25 @@
          }
      );
  
-     
+     var oldpos = window.scrollY  
+     document.addEventListener('scroll', handleScroll);	   
+     function handleScroll(event){	 
+          
+         console.log("original pos", oldpos)
+         if (timer){	    
+             clearTimeout(timer);	   
+         }	   
+         var timer = setTimeout( function(){	
+             console.log("current pos", window.scrollY) 
+
+             if ((window.scrollY - oldpos) > 0){
+                getDOM(tax);	
+                oldpos = window.scrollY;
+             } 
+         }, 300);	 
+     }
  
+
      function getDOM(tax){
         findDollarSign(document);
  
@@ -67,7 +84,7 @@
          Parameter: a node from the website.
          Precondition: node is an html node.  */
          function findDollarSign(node){
-             if (node.nodeType === 3){
+             if (node !== null && node.nodeType === 3){
                  const dollarIndex = node.nodeValue.indexOf('$')
                  if(dollarIndex !== -1 ) {
                     
@@ -122,7 +139,7 @@
          function findWhole(node){
              let result = null;
              if (node === null || !node.hasChildNodes()){
-                 if (node.nodeType === 3 && !isNaN(parseInt(node.nodeValue))){
+                 if (node !== null && node.nodeType === 3 && !isNaN(parseInt(node.nodeValue))){
                      return node.nodeValue;
                  }else{
                      return null;
